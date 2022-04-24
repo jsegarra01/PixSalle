@@ -27,7 +27,33 @@ class ProfileController
 
     public function showProfile(Request $request, Response $response): Response {
         # TODO add validation of session started
-        return $this->twig->render($response, 'profile.twig');
+
+        if (!isset($_SESSION["user_id"])) {
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            return $response
+                ->withHeader('Location', $routeParser->urlFor("sign-in"))
+                ->withStatus(302);
+        }
+
+        $user = $this->userRepository->getUserByEmail($_SESSION['email']);
+
+        $data = [];
+        $data['username'] = $user->username;
+        $data['email'] = $user->email;
+        $data['phone'] = $user->phone;
+        $data['picture'] = "No picture yet";
+
+        # TODO create username parameter
+        # TODO create phone parameter
+        # TODO create picture
+        
+        return $this->twig->render(
+            $response,
+            'profile.twig',
+            [
+                'formData' => $data,
+            ]
+        );
     }
 
     public function editProfile(Request $request, Response $response): Response
@@ -36,35 +62,44 @@ class ProfileController
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
         $errors = [];
+        #$errors['username'] = $this->validator->validateUsername($data['username']);
+        #$errors['phone'] = $this->validator->validatePhone($data['phone']);
+        #$errors['picture'] = $this->validator->validatePicture($data['picture']);
 
-        $errors['email'] = $this->validator->validateEmail($data['email']);
-        $errors['password'] = $this->validator->validatePassword($data['password']);
+        #if ($errors['username'] == '') {
+        #    unset($errors['username']);
+        #}
+        #if ($errors['phone'] == '') {
+        #    unset($errors['phone']);
+        #}
+        #if ($errors['picture'] == '') {
+        #    unset($errors['picture']);
+        #}
 
-        if ($errors['email'] == '') {
-            unset($errors['email']);
-        }
-        if ($errors['password'] == '') {
-            unset($errors['password']);
-        }
+        $user = $this->userRepository->getUserByEmail($_SESSION['email']);
+
         if (count($errors) == 0) {
-            // Check if the credentials match the user information saved in the database
-            $user = $this->userRepository->getUserByEmail($data['email']);
-            if ($user == null) {
-                $errors['email'] = 'User with this email address does not exist.';
-            } else if ($user->password != md5($data['password'])) {
-                $errors['password'] = 'Your email and/or password are incorrect.';
-            } else {
-                $_SESSION['user_id'] = $user->id;
-                return $response->withHeader('Location','/')->withStatus(302);
-            }
+            if($data['username']!="") {$user->username = $data['username'];}
+            if($data['phone']!="") {$user->phone = $data['phone'];}
+            if($data['picture']!="") {$user->picture = $data['picture'];}
+            #$this->userRepository->editUser($user);
+            # TODO create edit function on database
+            return $response->withHeader('Location', '/profile')->withStatus(302);
         }
+
+        $data = [];
+        $data['username'] = $user->username;
+        $data['email'] = $user->email;
+        $data['phone'] = $user->phone;
+        $data['picture'] = "No picture yet";
+
         return $this->twig->render(
             $response,
-            'sign-in.twig',
+            'profile.twig',
             [
                 'formErrors' => $errors,
                 'formData' => $data,
-                'formAction' => $routeParser->urlFor('signIn')
+                'formAction' => $routeParser->urlFor('profile')
             ]
         );
     }

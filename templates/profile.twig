@@ -5,9 +5,11 @@
 {% block content %}
 <h1>Welcome to PixSalle</h1>
 <form data-cy="sign-in" action="{{ formAction }}" method="POST">
-  <input data-cy="sign-in__email" type="text" name="email" placeholder="Enter your email">
-  <input data-cy="sign-in__password" type="password" name="password" placeholder="Enter your password">
-  <input data-cy="sign-in__btn" type="submit" value="Sign-in">
+  <p> Username {{ formData['username'] }} <input type="text" name="username" placeholder="New username"> </p>
+  <p> Email <input type="text" name="email" placeholder="{{ formData['email'] }}" readonly>  </p>
+  <p> Phone {{ formData['phone'] }} <input type="text" name="phone" placeholder="New phone number"> </p>
+  <p> Profile picture {{ formData['picture'] }} <input type="text" name="picture" placeholder="New picture"> </p>
+  <input type="submit" value="Save changes">
 </form>
 {% if formErrors['email'] %}
 <p data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>

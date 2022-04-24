@@ -29,4 +29,11 @@ class ValidatorService
     }
     return '';
   }
+
+  # TODO add username validation
+
+  # TODO add phone validation 6XXXXXXXX
+
+  # TODO add profile picture requirements
+  
 }

@@ -5,16 +5,15 @@ namespace Salle\PixSalle\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Repository\UserRepository;
+use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Model\User;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
-class UserSessionController
+class ProfileController
 {
     private Twig $twig;
-    private ValidatorService $validator;
     private UserRepository $userRepository;
 
     public function __construct(
@@ -26,11 +25,12 @@ class UserSessionController
         $this->validator = new ValidatorService();
     }
 
-    public function showSignInForm(Request $request, Response $response): Response {
-        return $this->twig->render($response, 'sign-in.twig');
+    public function showProfile(Request $request, Response $response): Response {
+        # TODO add validation of session started
+        return $this->twig->render($response, 'profile.twig');
     }
 
-    public function signIn(Request $request, Response $response): Response
+    public function editProfile(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
@@ -55,7 +55,7 @@ class UserSessionController
                 $errors['password'] = 'Your email and/or password are incorrect.';
             } else {
                 $_SESSION['user_id'] = $user->id;
-                return $response->withHeader('Location','/profile')->withStatus(302);
+                return $response->withHeader('Location','/')->withStatus(302);
             }
         }
         return $this->twig->render(
@@ -68,4 +68,5 @@ class UserSessionController
             ]
         );
     }
+
 }

@@ -30,10 +30,33 @@ class ValidatorService
     return '';
   }
 
-  # TODO add username validation
+  public function validateUsername(string $username)
+  {
+    if (!empty($username) && ctype_alnum($username) == FALSE) {
+      return 'Username must only contain alphanumeric characters';
+    }
+    return '';
+  }
 
-  # TODO add phone validation 6XXXXXXXX
+  public function validatePhone(string $phone)
+  {
+    if (!empty($phone)) {
+      if(strlen($phone) != 9) {
+        return 'Phone number must contain 9 digits';
+      } else if (is_numeric($phone) == FALSE) {
+        return 'Phone number must only contain numbers';
+      } else if ( $phone[0] != 6 ) {
+        return 'Phone numbers start with 6';
+      }
+    }
+    return '';
+  }
 
-  # TODO add profile picture requirements
+  public function validatePicture(string $picture)
+  {
+    # TODO add profile picture requirements
+    return '';
+  }
+
   
 }

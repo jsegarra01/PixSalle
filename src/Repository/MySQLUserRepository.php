@@ -22,8 +22,8 @@ final class MySQLUserRepository implements UserRepository
     public function createUser(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO users(email, password, createdAt, updatedAt)
-        VALUES(:email, :password, :createdAt, :updatedAt)
+        INSERT INTO users(email, password, createdAt, updatedAt, username, phone, picture)
+        VALUES(:email, :password, :createdAt, :updatedAt, :username, :phone, :picture)
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
@@ -32,11 +32,46 @@ final class MySQLUserRepository implements UserRepository
         $password = $user->password();
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
+        $username = $user->username();
+        $phone = $user->phone();
+        $picture = $user->picture();
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('createdAt', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updatedAt', $updatedAt, PDO::PARAM_STR);
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+        $statement->bindParam('phone', $phone, PDO::PARAM_STR);
+        $statement->bindParam('picture', $picture, PDO::PARAM_STR);
+
+        $statement->execute();
+    }
+
+    public function editUser(User $user): void
+    {
+        $query = <<<'QUERY'
+        UPDATE users
+        SET email=:email, password=:password, createdAt=:createdAt, updatedAt=:updatedAt, username=:username, phone=:phone, picture=:picture
+        WHERE email = :email
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $email = $user->email();
+        $password = $user->password();
+        $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
+        $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
+        $username = $user->username();
+        $phone = $user->phone();
+        $picture = $user->picture();
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('password', $password, PDO::PARAM_STR);
+        $statement->bindParam('createdAt', $createdAt, PDO::PARAM_STR);
+        $statement->bindParam('updatedAt', $updatedAt, PDO::PARAM_STR);
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+        $statement->bindParam('phone', $phone, PDO::PARAM_STR);
+        $statement->bindParam('picture', $picture, PDO::PARAM_STR);
 
         $statement->execute();
     }

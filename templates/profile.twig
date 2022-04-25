@@ -11,10 +11,13 @@
   <p> Profile picture {{ formData['picture'] }} <input type="text" name="picture" placeholder="New picture"> </p>
   <input type="submit" value="Save changes">
 </form>
-{% if formErrors['email'] %}
-<p data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>
+{% if formErrors['username'] %}
+<p>{{ formErrors['username'] }}</p>
 {% endif %}
-{% if formErrors['password'] %}
-<p data-cy="sign-in__wrongPassword">{{ formErrors['password'] }}</p>
+{% if formErrors['phone'] %}
+<p>{{ formErrors['phone'] }}</p>
+{% endif %}
+{% if formErrors['picture'] %}
+<p>{{ formErrors['picture'] }}</p>
 {% endif %}
 {% endblock %}

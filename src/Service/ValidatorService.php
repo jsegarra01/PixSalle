@@ -52,9 +52,21 @@ class ValidatorService
     return '';
   }
 
-  public function validatePicture(string $picture)
+  public function validatePicture(int $picsize, string $imageFileType)
   {
-    # TODO add profile picture requirements
+
+    // Check file size
+    if ($picsize > 1000000) {
+      return "Sorry, your file is too large.";
+    }
+
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png") {
+      return "Sorry, only JPG and PNG files are allowed.";
+    }
+
+    # TODO check file height width
+
     return '';
   }
 

@@ -43,12 +43,13 @@ class ProfileController
         if( $user->phone!="" ) $data['phone'] = $user->phone;
         else $data['phone'] = "Not set";
 
-        if( $user->picture!="" ) $data['picture'] = $user->picture;
-        else $data['picture'] = "Not set";
+        if( $user->picture!="" ) {
+            $data['uuid'] = $user->picture;
+            $data['picture'] = 'uploads/' . $user->picture;
+        }
+        else $data['uuid'] = "No picture yet";
 
         $data['email'] = $user->email;
-        
-        # TODO create picture
         
         return $this->twig->render(
             $response,
@@ -63,24 +64,46 @@ class ProfileController
     {
         $data = $request->getParsedBody();
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-
+        
         $errors = [];
         $errors['username'] = $this->validator->validateUsername($data['username']);
         $errors['phone'] = $this->validator->validatePhone($data['phone']);
-        $errors['picture'] = $this->validator->validatePicture($data['picture']);
+        $errors['picture'] = '';
 
+        $newPic = FALSE;
+        $target_dir = "uploads/";
+        # TODO change to UUID
+        $target_file = $target_dir . basename($_FILES['pic']['name']);
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $uuid = uniqid("pic", false) . '.' . $imageFileType;
+        $target_file = $target_dir . $uuid;
+        
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["pic"]["tmp_name"]);
+        if($check !== false) {
+            $errors['picture'] = $this->validator->validatePicture($_FILES["pic"]["size"], $imageFileType);
+            if ($errors['picture'] == '') {
+                if(move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file) == FALSE) {
+                    $errors['picture'] == 'File could not be uploaded';
+                } else {
+                    $newPic = TRUE;
+                }
+            }
+        } else {
+            $errors['picture'] = "File is not an image.";
+        }
+
+        if ($errors['picture'] == '') {
+            unset($errors['picture']);
+        }
         if ($errors['username'] == '') {
             unset($errors['username']);
         }
         if ($errors['phone'] == '') {
             unset($errors['phone']);
         }
-        if ($errors['picture'] == '') {
-            unset($errors['picture']);
-        }
-
+        
         $userdata = $this->userRepository->getUserByEmail($_SESSION['email']);
-
         $createdAt = date_create_from_format('Y-m-d H:i:s', $userdata->createdAt);
         $updatedAt = date_create_from_format('Y-m-d H:i:s', $userdata->updatedAt);
 
@@ -89,11 +112,13 @@ class ProfileController
         if (count($errors) == 0) {
             if($data['username']!="") {$user->setusername($data['username']);}
             if($data['phone']!="") {$user->setphone($data['phone']);}
-            if($data['picture']!="") {$user->setpicture($data['picture']);}
+            if( $newPic == TRUE ) {$user->setpicture($uuid);}
             $this->userRepository->editUser($user);
             return $response->withHeader('Location', '/profile')->withStatus(302);
         }
-
+        #$errors['picture'] = 
+        print_r(array_keys($errors));
+        
         $data = [];
         if( $userdata->username!="" ) $data['username'] = $userdata->username;
         else $data['username'] = "Not set";
@@ -101,8 +126,11 @@ class ProfileController
         if( $userdata->phone!="" ) $data['phone'] = $userdata->phone;
         else $data['phone'] = "Not set";
 
-        if( $userdata->picture!="" ) $data['picture'] = $userdata->picture;
-        else $data['picture'] = "Not set";
+        if( $user->picture!="" ) {
+            $data['uuid'] = $userdata->picture;
+            $data['picture'] = 'uploads/' . $userdata->picture;
+        }
+        else $data['uuid'] = "No picture yet";
 
         $data['email'] = $userdata->email;
 

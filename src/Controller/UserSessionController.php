@@ -61,6 +61,7 @@ class UserSessionController
                 $errors['password'] = 'Your email and/or password are incorrect.';
             } else {
                 $_SESSION['user_id'] = $user->id;
+                $_SESSION['email'] = $data['email'];
                 return $response->withHeader('Location','/profile')->withStatus(302);
             }
         }

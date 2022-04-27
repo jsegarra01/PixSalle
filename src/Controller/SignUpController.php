@@ -38,6 +38,13 @@ final class SignUpController
     {
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
+        if( isset($_SESSION['user_id']) ) {
+            unset($_SESSION['user_id']);
+        }
+        if( isset($_SESSION['email']) ) {
+            unset($_SESSION['email']);
+        }
+
         return $this->twig->render(
             $response,
             'sign-up.twig',

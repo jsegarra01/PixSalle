@@ -52,7 +52,7 @@ class ValidatorService
     return '';
   }
 
-  public function validatePicture(int $picsize, string $imageFileType)
+  public function validatePicture(int $picsize, string $imageFileType, int $width, int $height)
   {
 
     // Check file size
@@ -66,6 +66,10 @@ class ValidatorService
     }
 
     # TODO check file height width
+    if ( $height!= 500 || $width!=500) {
+      return "Sorry, only 500x500 images are allowed";
+    }
+
 
     return '';
   }

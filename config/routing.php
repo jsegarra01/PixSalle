@@ -6,11 +6,12 @@ use Salle\PixSalle\Controller\API\BlogAPIController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Controller\ProfileController;
+use Salle\PixSalle\Controller\PasswordController;
 use Slim\App;
 
 function addRoutes(App $app): void
 {
-    $app->get('/', UserSessionController::class . ':showSignInForm')->setName('signIn');
+    $app->get('/', UserSessionController::class . ':showSignInForm')->setName('signIn2');
     $app->get('/sign-in', UserSessionController::class . ':showSignInForm')->setName('signIn');
     $app->post('/sign-in', UserSessionController::class . ':signIn');
     $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
@@ -19,6 +20,6 @@ function addRoutes(App $app): void
     $app->get('/profile', ProfileController::class . ':showProfile')->setName('profile');
     $app->post('/profile', ProfileController::class . ':editProfile');
 
-    //$app->get('/profile/changePassword', ProfileController::class . ':showChangePassword')->setName('changePassword');
-    //$app->post('/profile/changePassword', ProfileController::class . ':changePassword');
+    $app->get('/profile/changePassword', PasswordController::class . ':showChangePassword')->setName('changePassword');
+    $app->post('/profile/changePassword', PasswordController::class . ':changePassword');
 }

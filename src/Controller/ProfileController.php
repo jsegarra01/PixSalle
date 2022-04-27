@@ -28,13 +28,10 @@ class ProfileController
     public function showProfile(Request $request, Response $response): Response {
 
         if (!isset($_SESSION["user_id"])) {
-        #    $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        #    return $response
-        #        ->withHeader('Location', $routeParser->urlFor("signIn"))
-        #        ->withStatus(302);
-        #} else {
-            $_SESSION["user_id"] = 1;
-            $_SESSION["email"] = "jordi@salle.url.edu";
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            return $response
+                ->withHeader('Location', $routeParser->urlFor("signIn"))
+                ->withStatus(302);
         }
 
         $user = $this->userRepository->getUserByEmail($_SESSION['email']);
@@ -98,10 +95,16 @@ class ProfileController
         }
 
         $data = [];
-        $data['username'] = $user->username;
-        $data['email'] = $user->email;
-        $data['phone'] = $user->phone;
-        $data['picture'] = "No picture yet";
+        if( $userdata->username!="" ) $data['username'] = $userdata->username;
+        else $data['username'] = "Not set";
+
+        if( $userdata->phone!="" ) $data['phone'] = $userdata->phone;
+        else $data['phone'] = "Not set";
+
+        if( $userdata->picture!="" ) $data['picture'] = $userdata->picture;
+        else $data['picture'] = "Not set";
+
+        $data['email'] = $userdata->email;
 
         return $this->twig->render(
             $response,

@@ -1,10 +1,10 @@
 {% extends "base.twig" %}
 
-{% block title %}Sign-in | PixSalle{% endblock %}
+{% block title %}Profile | PixSalle{% endblock %}
 
 {% block content %}
 <h1>Welcome to PixSalle</h1>
-<form data-cy="sign-in" action="{{ formAction }}" method="POST">
+<form action="{{ formAction }}" method="POST">
   <p> Username {{ formData['username'] }} <input type="text" name="username" placeholder="New username"> </p>
   <p> Email <input type="text" name="email" placeholder="{{ formData['email'] }}" readonly>  </p>
   <p> Phone {{ formData['phone'] }} <input type="text" name="phone" placeholder="New phone number"> </p>
@@ -20,4 +20,6 @@
 {% if formErrors['picture'] %}
 <p>{{ formErrors['picture'] }}</p>
 {% endif %}
+
+<a href="/profile/changePassword"> Change password </a>
 {% endblock %}

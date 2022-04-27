@@ -31,7 +31,6 @@ class User
     $this->password = $password;
     $this->createdAt = $createdAt;
     $this->updatedAt = $updatedAt;
-    #TODO set default username
     $this->username = $username;
     $this->phone = $phone;
     $this->picture = $picture;

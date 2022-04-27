@@ -72,25 +72,29 @@ class ProfileController
 
         $newPic = FALSE;
         $target_dir = "uploads/";
-        # TODO change to UUID
-        $target_file = $target_dir . basename($_FILES['pic']['name']);
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $uuid = uniqid("pic", false) . '.' . $imageFileType;
-        $target_file = $target_dir . $uuid;
         
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES["pic"]["tmp_name"]);
-        if($check !== false) {
-            $errors['picture'] = $this->validator->validatePicture($_FILES["pic"]["size"], $imageFileType);
-            if ($errors['picture'] == '') {
-                if(move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file) == FALSE) {
-                    $errors['picture'] == 'File could not be uploaded';
-                } else {
-                    $newPic = TRUE;
+        if ( $_FILES['pic']['name'] != '' ) {
+            
+            $target_file = $target_dir . basename($_FILES['pic']['name']);
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            $uuid = uniqid("pic", false) . '.' . $imageFileType;
+            $target_file = $target_dir . $uuid;
+
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["pic"]["tmp_name"]);
+            if($check !== false) {
+                $errors['picture'] = $this->validator->validatePicture($_FILES["pic"]["size"], $imageFileType, $check[0], $check[1]);
+                if ($errors['picture'] == '') {
+                    if(move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file) == FALSE) {
+                        $errors['picture'] == 'File could not be uploaded';
+                    } else {
+                        $newPic = TRUE;
+                    }
                 }
+            } else {
+                $errors['picture'] = "File is not an image.";
             }
-        } else {
-            $errors['picture'] = "File is not an image.";
+
         }
 
         if ($errors['picture'] == '') {

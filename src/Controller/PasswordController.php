@@ -56,8 +56,6 @@ class PasswordController
         if ($errors['confirmnewpassword'] == '') {
             unset($errors['confirmnewpassword']);
         }
-
-        # TODO confirm first password with database
         
         $userdata = $this->userRepository->getUserByEmail($_SESSION['email']);
         

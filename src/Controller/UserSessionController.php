@@ -27,7 +27,21 @@ class UserSessionController
     }
 
     public function showSignInForm(Request $request, Response $response): Response {
-        return $this->twig->render($response, 'sign-in.twig');
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+
+        if( isset($_SESSION['user_id']) ) {
+            unset($_SESSION['user_id']);
+        }
+        if( isset($_SESSION['email']) ) {
+            unset($_SESSION['email']);
+        }
+
+        return $this->twig->render(
+            $response, 
+            'sign-in.twig',
+            [
+                'formAction' => $routeParser->urlFor('signIn')
+            ]);
     }
 
     public function signIn(Request $request, Response $response): Response
@@ -55,7 +69,8 @@ class UserSessionController
                 $errors['password'] = 'Your email and/or password are incorrect.';
             } else {
                 $_SESSION['user_id'] = $user->id;
-                return $response->withHeader('Location','/')->withStatus(302);
+                $_SESSION['email'] = $data['email'];
+                return $response->withHeader('Location','/profile')->withStatus(302);
             }
         }
         return $this->twig->render(

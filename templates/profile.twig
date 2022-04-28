@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block title %}Profile | PixSalle{% endblock %}
+
+{% block content %}
+<h1>Welcome to PixSalle</h1>
+<form action="{{ formAction }}" method="POST" enctype="multipart/form-data">
+  <p> Username {{ formData['username'] }} <input type="text" name="username" placeholder="New username"> </p>
+  {% if formErrors['username'] %}
+    <p>{{ formErrors['username'] }}</p>
+  {% endif %}
+  <p> Email <input type="text" name="email" placeholder="{{ formData['email'] }}" readonly>  </p>
+  <p> Phone {{ formData['phone'] }} <input type="text" name="phone" placeholder="New phone number"> </p>
+  {% if formErrors['phone'] %}
+    <p>{{ formErrors['phone'] }}</p>
+  {% endif %}
+  <p> Profile picture
+    <img src="{{ formData['picture'] }}" alt="{{formData['uuid']}}" height=70 width=70>
+    <input type="file" name="pic" id="pic"> 
+  </p>
+  {% if formErrors['picture'] %}
+    <p>{{ formErrors['picture'] }}</p>
+  {% endif %}
+  <input type="submit" value="Save changes">
+</form>
+
+<a href="/profile/changePassword"> Change password </a>
+{% endblock %}

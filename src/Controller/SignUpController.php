@@ -38,6 +38,13 @@ final class SignUpController
     {
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
+        if( isset($_SESSION['user_id']) ) {
+            unset($_SESSION['user_id']);
+        }
+        if( isset($_SESSION['email']) ) {
+            unset($_SESSION['email']);
+        }
+
         return $this->twig->render(
             $response,
             'sign-up.twig',
@@ -71,6 +78,10 @@ final class SignUpController
         if (count($errors) == 0) {
             $user = new User($data['email'], md5($data['password']), new DateTime(), new DateTime());
             $this->userRepository->createUser($user);
+            $savedUser = $this->userRepository->getUserByEmail($data['email']);
+            $username = 'user' . strval($savedUser->id);
+            $user->setusername($username);
+            $this->userRepository->editUser($user);
             return $response->withHeader('Location', '/sign-in')->withStatus(302);
         }
         return $this->twig->render(

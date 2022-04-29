@@ -7,6 +7,7 @@ use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Controller\ProfileController;
 use Salle\PixSalle\Controller\PasswordController;
+use Salle\PixSalle\Controller\MembershipController;
 use Slim\App;
 
 function addRoutes(App $app): void
@@ -22,4 +23,7 @@ function addRoutes(App $app): void
 
     $app->get('/profile/changePassword', PasswordController::class . ':showChangePassword')->setName('changePassword');
     $app->post('/profile/changePassword', PasswordController::class . ':changePassword');
+
+    $app->get('/user/membership', MembershipController::class . ':showMembership')->setName('membership');
+    $app->post('/user/membership', MembershipController::class . ':changeMembership');
 }

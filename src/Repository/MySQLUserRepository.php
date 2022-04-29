@@ -22,8 +22,8 @@ final class MySQLUserRepository implements UserRepository
     public function createUser(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO users(email, password, createdAt, updatedAt, username, phone, picture)
-        VALUES(:email, :password, :createdAt, :updatedAt, :username, :phone, :picture)
+        INSERT INTO users(email, password, createdAt, updatedAt, username, phone, picture, membership)
+        VALUES(:email, :password, :createdAt, :updatedAt, :username, :phone, :picture, :membership)
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
@@ -35,6 +35,7 @@ final class MySQLUserRepository implements UserRepository
         $username = $user->username();
         $phone = $user->phone();
         $picture = $user->picture();
+        $membership = $user->membership();
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
@@ -43,6 +44,7 @@ final class MySQLUserRepository implements UserRepository
         $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('phone', $phone, PDO::PARAM_STR);
         $statement->bindParam('picture', $picture, PDO::PARAM_STR);
+        $statement->bindParam('membership', $membership, PDO::PARAM_STR);
 
         $statement->execute();
     }
@@ -51,7 +53,7 @@ final class MySQLUserRepository implements UserRepository
     {
         $query = <<<'QUERY'
         UPDATE users
-        SET email=:email, password=:password, createdAt=:createdAt, updatedAt=:updatedAt, username=:username, phone=:phone, picture=:picture
+        SET email=:email, password=:password, createdAt=:createdAt, updatedAt=:updatedAt, username=:username, phone=:phone, picture=:picture, membership=:membership
         WHERE email = :email
         QUERY;
 
@@ -64,6 +66,7 @@ final class MySQLUserRepository implements UserRepository
         $username = $user->username();
         $phone = $user->phone();
         $picture = $user->picture();
+        $membership = $user->membership();
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
@@ -72,6 +75,7 @@ final class MySQLUserRepository implements UserRepository
         $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('phone', $phone, PDO::PARAM_STR);
         $statement->bindParam('picture', $picture, PDO::PARAM_STR);
+        $statement->bindParam('membership', $membership, PDO::PARAM_STR);
 
         $statement->execute();
     }

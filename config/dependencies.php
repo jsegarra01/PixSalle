@@ -9,6 +9,7 @@ use Salle\PixSalle\Repository\MySQLUserRepository;
 use Salle\PixSalle\Repository\PDOConnectionBuilder;
 use Salle\PixSalle\Controller\ProfileController;
 use Salle\PixSalle\Controller\PasswordController;
+use Salle\PixSalle\Controller\MembershipController;
 use Slim\Views\Twig;
 
 function addDependencies(ContainerInterface $container): void
@@ -60,6 +61,13 @@ function addDependencies(ContainerInterface $container): void
         PasswordController::class,
         function (ContainerInterface $c) {
             return new PasswordController($c->get('view'), $c->get('user_repository'));
+        }
+    );
+
+    $container->set(
+        MembershipController::class,
+        function (ContainerInterface $c) {
+            return new MembershipController($c->get('view'), $c->get('user_repository'));
         }
     );
 }

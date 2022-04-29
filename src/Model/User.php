@@ -17,6 +17,7 @@ class User
   private string $username;
   private string $phone;
   private string $picture;
+  private string $membership;
 
   public function __construct(
     string $email,
@@ -25,7 +26,8 @@ class User
     Datetime $updatedAt,
     string $username = "",
     string $phone = "",
-    string $picture = ""
+    string $picture = "",
+    string $membership = ""
   ) {
     $this->email = $email;
     $this->password = $password;
@@ -34,6 +36,11 @@ class User
     $this->username = $username;
     $this->phone = $phone;
     $this->picture = $picture;
+    if ($membership=="") {
+      $this->membership = "Cool";
+    } else {
+      $this->membership = $membership;
+    }
   }
 
   public function id()
@@ -114,6 +121,16 @@ class User
   public function setpicture(string $auxpicture)
   {
     $this->picture = $auxpicture;
+  }
+
+  public function membership()
+  {
+    return $this->membership;
+  }
+
+  public function setmembership(string $auxmembership)
+  {
+    $this->membership = $auxmembership;
   }
 
 }

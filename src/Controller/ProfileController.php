@@ -120,8 +120,6 @@ class ProfileController
             $this->userRepository->editUser($user);
             return $response->withHeader('Location', '/profile')->withStatus(302);
         }
-        #$errors['picture'] = 
-        print_r(array_keys($errors));
         
         $data = [];
         if( $userdata->username!="" ) $data['username'] = $userdata->username;
@@ -130,7 +128,7 @@ class ProfileController
         if( $userdata->phone!="" ) $data['phone'] = $userdata->phone;
         else $data['phone'] = "Not set";
 
-        if( $user->picture!="" ) {
+        if( $userdata->picture!="" ) {
             $data['uuid'] = $userdata->picture;
             $data['picture'] = 'uploads/' . $userdata->picture;
         }

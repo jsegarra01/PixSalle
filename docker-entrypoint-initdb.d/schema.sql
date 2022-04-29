@@ -19,6 +19,5 @@ CREATE TABLE `users`
     `picture`   VARCHAR(255)                                            NULL,
     `membership`   VARCHAR(255)                                         NOT NULL,
 
-    CONSTRAINT check_membership CHECK ('membership' IN ('Cool', 'Active')),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

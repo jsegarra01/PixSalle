@@ -1,9 +1,8 @@
-{% extends "base.twig" %}
+{% extends "baseUser.twig" %}
 
 {% block title %}Profile | PixSalle{% endblock %}
 
-{% block content %}
-<h1>Welcome to PixSalle</h1>
+{% block main %}
 <form action="{{ formAction }}" method="POST" enctype="multipart/form-data">
   <p> Username {{ formData['username'] }} <input type="text" name="username" placeholder="New username"> </p>
   {% if formErrors['username'] %}

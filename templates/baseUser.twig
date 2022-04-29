@@ -1,0 +1,32 @@
+{% extends "base.twig" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/baseUser.css"/>
+{% endblock %}
+
+{% block content %}
+    <header>
+        <nav>
+            <ul>
+                <li><a href="">Explore</a></li>
+                <div class="dropdown">
+                    <li><a href="">User</a></li>
+                    <ul class="dropdown-content">
+                        <li><a href="">Wallet</a></li>
+                        <li><a href="{{ url_for('membership') }}">Membership</a></li>
+                    </ul>
+                </div>
+                <li><a href="">Portfolio</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to PixSalle</h1>
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer>
+
+    </footer>
+{% endblock %}

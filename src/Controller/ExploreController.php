@@ -4,14 +4,17 @@ namespace Salle\PixSalle\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Salle\PixSalle\Repository\MySQLUserRepository;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-class ExplorerController {
+class ExploreController {
     private Twig $twig;
+    private MySQLUserRepository $userRepository;
 
-    public function __construct(Twig $twig) {
+    public function __construct(Twig $twig, MySQLUserRepository $userRepository) {
         $this->twig = $twig;
+        $this->userRepository = $userRepository;
     }
 
     public function showExplorer(Request $request, Response $response): Response {
@@ -21,6 +24,13 @@ class ExplorerController {
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
                 ->withStatus(302);
         }
-    }
 
+        return $this->twig->render(
+            $response,
+            'explore.twig',
+            [
+                'images' => $this->userRepository->getUserAllPP()
+            ]
+        );
+    }
 }

@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block title %}Membership | PixSalle{% endblock %}
+
+{% block content %}
+<h1>Welcome to PixSalle</h1>
+
+<p> Current membership status: {{ formData['membership'] }} </p>
+
+<form action="{{ formAction }}" method="POST">
+
+    <p> Select Membership </p>
+
+    <input type="radio" id="cool" name="membership" value="Cool" checked>
+    <label for="cool">Cool</label><br>
+
+    <input type="radio" id="active" name="membership" value="Active">
+    <label for="active">Active</label><br>
+
+    {% if formErrors['general'] %}
+        <p>{{ formErrors['general'] }}</p>
+    {% endif %}
+
+    <input type="submit" value="Select membership">
+
+</form>
+
+{% endblock %}

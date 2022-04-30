@@ -7,17 +7,19 @@
 {% block content %}
     <header>
         <nav>
-            <a href="{{ url_for('explore') }}">Explore</a>
-            <div class="dropdown">
-                <a href="">User</a>
-                <div class="dropdown-content">
-                    <a href="">Wallet</a>
-                    <a href="{{ url_for('membership') }}">Membership</a>
-                </div>
-            </div>
-            <a href="">Portfolio</a>
-            <a href="{{ url_for('profile') }}">Profile</a>
-
+            <ul>
+                <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                <li>
+                    <a href="">User</a>
+                    <ul>
+                        <li><a href="">Wallet</a></li>
+                        <li><a href="{{ url_for('membership') }}">Membership</a></li>
+                        <li></li>
+                    </ul>
+                </li>
+                <li><a href="">Portfolio</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            </ul>
         </nav>
     </header>
     <main>

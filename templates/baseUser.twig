@@ -7,11 +7,11 @@
 {% block content %}
     <header>
         <nav>
-            <ul>
+            <ul class="main-menu">
                 <li><a href="{{ url_for('explore') }}">Explore</a></li>
                 <li>
                     <a href="">User</a>
-                    <ul>
+                    <ul class = "dropdown-menu">
                         <li><a href="">Wallet</a></li>
                         <li><a href="{{ url_for('membership') }}">Membership</a></li>
                         <li></li>

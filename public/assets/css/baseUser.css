@@ -1,5 +1,6 @@
 :root {
     --beige: #EDE6DB;
+    --darker-beige: #CFB283;
     --green: #417D7A;
     --green-blue: #1D5C63;
     --dark-blue: #1A3C40;
@@ -56,9 +57,9 @@ ul.main-menu > li {
     left: 0;
 }
 
-/*.main-menu li:hover > a {
+.main-menu li:hover > a {
     background-color: #1D5C63;
-}*/
+}
 
 .main-menu li:hover a:hover {
     background-color: var(--green);

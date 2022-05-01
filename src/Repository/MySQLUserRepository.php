@@ -99,4 +99,17 @@ final class MySQLUserRepository implements UserRepository
         }
         return null;
     }
+
+    public function getUserAllPP() {
+        $query = <<<'QUERY'
+        SELECT username, picture FROM users
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+        $statement->execute();
+
+        $row = $statement->fetchAll(PDO::FETCH_NAMED);
+        return $row;
+
+    }
 }

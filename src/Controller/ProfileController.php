@@ -85,8 +85,8 @@ class ProfileController
             if($check !== false) {
                 $errors['picture'] = $this->validator->validatePicture($_FILES["pic"]["size"], $imageFileType, $check[0], $check[1]);
                 if ($errors['picture'] == '') {
-                    if(move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file) == FALSE) {
-                        $errors['picture'] == 'File could not be uploaded';
+                    if(!move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file)) {
+                        $errors['picture'] = 'File could not be uploaded';
                     } else {
                         $newPic = TRUE;
                     }

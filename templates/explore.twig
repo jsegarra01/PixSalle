@@ -1,0 +1,15 @@
+{% extends "baseUser.twig" %}
+
+{% block title %}Profile | PixSalle{% endblock %}
+
+{% block main %}
+    <h2>Explore</h2>
+
+    {% for image in images %}
+        <div class="image-container">
+            <img src="uploads/{{ image['picture'] }}" alt="">
+            <p>{{ image['username'] }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

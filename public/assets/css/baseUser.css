@@ -1,17 +1,9 @@
-/*
-colors
-beige:
-green: 417D7A
-green blue: 1D5C63
-dark blue: 1A3C40
-*/
 :root {
     --beige: #EDE6DB;
     --green: #417D7A;
     --green-blue: #1D5C63;
     --dark-blue: #1A3C40;
 }
-
 
 * {
     padding: 0;
@@ -77,5 +69,5 @@ ul.main-menu > li {
 }
 
 main {
-    margin-top: 72px;
+    margin: 72px 256px 0 256px;
 }

@@ -102,7 +102,7 @@ final class MySQLUserRepository implements UserRepository
 
     public function getUserAllPP() {
         $query = <<<'QUERY'
-        SELECT email, picture FROM users
+        SELECT username, picture FROM users
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);

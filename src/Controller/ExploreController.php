@@ -17,6 +17,7 @@ class ExploreController {
         $this->userRepository = $userRepository;
     }
 
+    // Show the profile pictures, when we implement the other section we will be updated to show the pictures of the user.
     public function showExplorer(Request $request, Response $response): Response {
         if (!isset($_SESSION["user_id"])) {
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();

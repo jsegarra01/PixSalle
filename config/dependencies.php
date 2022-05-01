@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
+use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Repository\MySQLUserRepository;
@@ -47,6 +48,13 @@ function addDependencies(ContainerInterface $container): void
         SignUpController::class,
         function (ContainerInterface $c) {
             return new SignUpController($c->get('view'), $c->get('user_repository'));
+        }
+    );
+
+    $container->set(
+        ExploreController::class,
+        function (ContainerInterface $c) {
+            return new ExploreController($c->get('view'), $c->get('user_repository'));
         }
     );
 

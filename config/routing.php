@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Salle\PixSalle\Controller\API\BlogAPIController;
+use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Controller\ProfileController;
@@ -17,6 +18,8 @@ function addRoutes(App $app): void
     $app->post('/sign-in', UserSessionController::class . ':signIn');
     $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
     $app->post('/sign-up', SignUpController::class . ':signUp');
+
+    $app->get('/explore', ExploreController::class . ':showExplorer')->setName('explore');
 
     $app->get('/profile', ProfileController::class . ':showProfile')->setName('profile');
     $app->post('/profile', ProfileController::class . ':editProfile');

@@ -19,6 +19,29 @@ CREATE TABLE `users`
     `picture`   VARCHAR(255)                                            NULL,
     `membership`   VARCHAR(255)                                         NOT NULL,
 
-    CONSTRAINT check_membership CHECK ('membership' IN ('Cool', 'Active')),
     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE `picture`
+(
+    `id`        INT                                                     NOT NULL AUTO_INCREMENT,
+    `pic_url`   VARCHAR(255)                                            NOT NULL,
+    `user_id`   INT                                            NOT NULL,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `album`;
+CREATE TABLE `album`
+(
+    `id`        INT                                                     NOT NULL AUTO_INCREMENT,
+    `name`      VARCHAR(255)                                            NOT NULL,
+    `pic_id`    INT                                                     NOT NULL,
+    `user_id`   INT                                                     NOT NULL,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (pic_id) REFERENCES picture(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

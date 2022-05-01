@@ -1,0 +1,38 @@
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+}
+
+
+.image-section img {
+    border-radius: 50%;
+}
+
+.image-section img:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.information-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 16px;
+}
+
+.information-section input[type=text] {
+    border: none;
+    resize: horizontal;
+    background-color: var(--beige);
+    border-bottom: solid;
+    width: auto;
+}
+
+

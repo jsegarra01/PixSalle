@@ -8,17 +8,17 @@
     <header>
         <nav>
             <ul class="main-menu">
-                <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                <li><a href="{{ url_for('explore') }}" class="{{currentPage[0] == 'explore' ? 'menu-selected' : ''}}">Explore</a></li>
                 <li>
-                    <a href="">User</a>
-                    <ul class = "dropdown-menu">
-                        <li><a href="">Wallet</a></li>
-                        <li><a href="{{ url_for('membership') }}">Membership</a></li>
+                    <a class="{{currentPage[0] == 'user' ? 'menu-selected' : ''}}">User</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="" class="{{currentPage[0] == 'wallet' ? 'menu-selected' : ''}}">Wallet</a></li>
+                        <li><a href="{{ url_for('membership') }}" class="{{currentPage[0] == 'membership' ? 'menu-selected' : ''}}">Membership</a></li>
                         <li></li>
                     </ul>
                 </li>
-                <li><a href="">Portfolio</a></li>
-                <li><a href="{{ url_for('profile') }}" class="{{currentPage[0] == 'profile' ? 'menu-selected' : 'hola'}}">Profile</a></li>
+                <li><a href="" class="{{currentPage[0] == 'portfolio' ? 'menu-selected' : ''}}">Portfolio</a></li>
+                <li><a href="{{ url_for('profile') }}" class="{{currentPage[0] == 'profile' ? 'menu-selected' : ''}}">Profile</a></li>
             </ul>
         </nav>
     </header>

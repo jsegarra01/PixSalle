@@ -1,14 +1,23 @@
 {% extends "baseUser.twig" %}
 
-{% block title %}Profile | PixSalle{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/explore.css"/>
+{% endblock %}
+
+{% block title %}Explore | PixSalle{% endblock %}
 
 {% block main %}
-    <h2>Explore</h2>
-
+    <h1>ALL IMAGES</h1>
     {% for image in images %}
         <div class="image-container">
-            <img src="uploads/{{ image['picture'] }}" alt="">
-            <p>{{ image['username'] }}</p>
+            {% for i in 0..10 %}
+                <div class="image-info">
+                    <img src="uploads/{{ image['picture'] }}" alt="">
+                    <div class="dark-gradient"></div>
+                    <p class="username">{{ image['username'] }}</p>
+                </div>
+            {% endfor %}
         </div>
     {% endfor %}
 

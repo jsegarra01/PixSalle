@@ -23,6 +23,7 @@ nav {
     top: 0;
     display: flex;
     justify-content: center;
+    z-index: 1;
 }
 
 .main-menu,
@@ -57,9 +58,9 @@ ul.main-menu > li {
     left: 0;
 }
 
-.main-menu li:hover > a {
-    background-color: #1D5C63;
-}
+/*.main-menu li:hover > a {*/
+/*    background-color: #1D5C63;*/
+/*}*/
 
 .main-menu li:hover a:hover {
     background-color: var(--green);

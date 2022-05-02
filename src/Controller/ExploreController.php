@@ -30,6 +30,7 @@ class ExploreController {
             $response,
             'explore.twig',
             [
+                'currentPage' => ['explore'],
                 'images' => $this->userRepository->getUserAllPP()
             ]
         );

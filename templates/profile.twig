@@ -7,37 +7,23 @@
 {% block title %}Profile | PixSalle{% endblock %}
 
 {% block main %}
-<form action="{{ formAction }}" method="POST" enctype="multipart/form-data">
-  <div class="image-section">
-    <label for="pic">
-      <img src="{{ formData['picture'] }}" alt="{{formData['uuid']}}" height=200 width=200>
-    </label>
-    <input type="file" name="pic" id="pic" class="change-image">
-    {% if formErrors['picture'] %}
-      <p>{{ formErrors['picture'] }}</p>
-    {% endif %}
+
+  <div class="user-main-information">
+    <img src="{{ formData['picture'] }}" alt="{{formData['uuid']}}" height=200 width=200>
+    <div class="user-info">
+      <h1>{{ formData['username'] }}</h1>
+      <div class="user-stats">
+        <p>Nº Albums</p>
+        <p>Nº Pictures</p>
+      </div>
+    </div>
   </div>
-  <div class="information-section">
-    <label>
-      Email: <br>
-      <input type="text" name="email" placeholder="{{ formData['email'] }}" readonly>
-    </label>
-    <label>
-      Username:<br>
-      <input type="text" name="username" placeholder="{{ formData['username'] }}">
-    </label>
-    {% if formErrors['username'] %}
-      <p>{{ formErrors['username'] }}</p>
-    {% endif %}
-    <label>
-      Phone:<br>
-      <input type="text" name="phone" placeholder="{{ formData['phone'] }}">
-    </label>
-    {% if formErrors['phone'] %}
-      <p>{{ formErrors['phone'] }}</p>
-    {% endif %}
-    <a href="/profile/changePassword"> Change password </a>
-    <input type="submit" value="Save changes">
+
+  <div class="edit-menu">
+    <a href="{{ full_url_for('profile') }}" class="{{currentPage[1] == 'user' ? 'submenu-selected' : ''}}">EDIT PROFILE</a>
+    <a href="{{ full_url_for('changePassword') }}" class="{{currentPage[1] == 'password' ? 'submenu-selected' : ''}}">EDIT PASSWORD</a>
   </div>
-</form>
+
+  {% block editLayout%}
+  {%endblock%}
 {% endblock %}

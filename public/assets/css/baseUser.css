@@ -72,3 +72,7 @@ ul.main-menu > li {
 main {
     margin: 72px 256px 0 256px;
 }
+
+a.menu-selected {
+    background-color: var(--green-blue);
+}

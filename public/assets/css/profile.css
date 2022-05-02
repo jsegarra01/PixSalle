@@ -1,36 +1,62 @@
-form {
+.user-main-information {
     display: flex;
-    border-bottom: var(--darker-beige) 1px solid;
-    gap: 16px;
-    padding: 8px 0;
+    gap: 56px;
+    padding: 8px 64px;
 }
 
-.image-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 16px;
-}
-
-
-
-.image-section img {
+.user-main-information img {
     border-radius: 50%;
 }
 
-.image-section img:hover {
-    cursor: pointer;
-    opacity: 0.5;
-}
-
-.information-section {
+.user-info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 0 16px;
 }
 
-.information-section input[type=text] {
+.user-stats {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.edit-menu {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: var(--darker-beige) 1px solid;
+}
+
+.edit-menu a {
+    text-align: center;
+    width: 50%;
+    text-decoration: none;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 8px;
+    color: var(--dark-blue);
+}
+
+a.submenu-selected {
+    color: var(--beige);
+    background-color: var(--dark-blue);
+}
+
+.edit-menu a:hover {
+    color: var(--beige);
+    background-color: var(--green);
+}
+
+
+form {
+    display: flex;
+    gap: 16px;
+    padding: 8px 0;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+form input[type=text] {
     border: none;
     resize: horizontal;
     background-color: var(--beige);

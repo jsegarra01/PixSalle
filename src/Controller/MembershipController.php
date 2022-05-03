@@ -43,6 +43,7 @@ class MembershipController
             $response,
             'membership.twig',
             [
+                'currentPage' => ['user', 'membership'],
                 'formData' => $data,
             ]
         );

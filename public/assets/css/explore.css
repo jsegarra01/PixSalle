@@ -1,3 +1,7 @@
+h1 {
+    color: var(--dark-blue);
+}
+
 .image-container {
     display: flex;
     flex-wrap: wrap;

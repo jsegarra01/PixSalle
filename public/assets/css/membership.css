@@ -1,0 +1,67 @@
+h1 {
+    padding-top: 16px;
+    text-align: center;
+    color: var(--dark-blue);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 48px;
+    gap: 64px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.member-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+label {
+    width: 256px;
+    padding: 16px;
+    border-radius: 16px;
+    color: var(--dark-blue);
+    border: var(--dark-blue) 4px solid;
+}
+
+input[type="radio"]:checked + label {
+    color: var(--beige);
+    background-color: var(--green-blue);
+}
+
+input[type="submit"] {
+    height: 32px;
+    padding: 0 4px;
+    color: var(--beige);
+    align-self: center;
+    border-radius: 12px;
+    border: var(--dark-blue) 3px solid;
+    background-color: var(--green-blue);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.benefit {
+    font-size: 18px;
+}
+
+label:hover,
+input[type="submit"]:hover{
+    cursor: pointer;
+    outline: var(--green) 3px solid;
+}

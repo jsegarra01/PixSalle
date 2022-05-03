@@ -69,7 +69,7 @@ class MembershipController
         }
         
         $data = [];
-        $data['membership'] = $user->membership;
+        $data['membership'] = $userdata->membership;
 
         return $this->twig->render(
             $response,

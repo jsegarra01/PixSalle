@@ -1,3 +1,7 @@
+h1 {
+    color: var(--dark-blue);
+}
+
 .user-main-information {
     display: flex;
     gap: 56px;
@@ -39,7 +43,7 @@
 
 a.submenu-selected {
     color: var(--beige);
-    background-color: var(--dark-blue);
+    background-color: var(--green-blue);
 }
 
 .edit-menu a:hover {
@@ -47,21 +51,90 @@ a.submenu-selected {
     background-color: var(--green);
 }
 
-
 form {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     padding: 8px 0;
+    margin-top: 16px;
     flex-direction: column;
     justify-content: space-around;
+    color: var(--dark-blue);
 }
 
-form input[type=text] {
+form input[type="text"],
+form input[type="password"] {
     border: none;
-    resize: horizontal;
+    height: 32px;
+    width: 340px;
+    padding-left: 8px;
     background-color: var(--beige);
-    border-bottom: solid;
-    width: auto;
+    border-bottom: var(--dark-blue) 3px solid;
 }
 
+input[type="file"] {
+    display: none;
+}
+
+form p {
+        color: red;
+        align-self: flex-start;
+}
+
+input[type="file"] + label {
+    line-height: 24px;
+}
+
+input[type="submit"],
+input[type="file"] + label {
+    height: 32px;
+    width: 340px;
+    color: var(--beige);
+    text-align: center;
+    border-radius: 10px;
+    border: var(--dark-blue) 3px solid;
+    background-color: var(--green-blue);
+}
+
+::placeholder {
+    color: var(--dark-blue);
+    opacity: 0.8;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: var(--dark-blue) !important;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    outline: none;
+    border-bottom: var(--green) 3px solid;
+}
+
+input[type="submit"]:hover,
+input[type="file"] + label:hover {
+    opacity: 0.8;
+    outline: var(--green) 3px solid;
+    cursor: pointer;
+}
+
+/*input[type="submit"] {*/
+/*    padding: 0 4px;*/
+/*}*/
+
+/*p {*/
+/*    color: red;*/
+/*    align-self: flex-start;*/
+/*}*/
+
+
+
+
+/*input[type="submit"]:hover {*/
+/*    opacity: 80%;*/
+/*    cursor: pointer;*/
+/*}*/
 

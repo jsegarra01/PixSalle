@@ -53,9 +53,10 @@ class ProfileController
         
         return $this->twig->render(
             $response,
-            'profile.twig',
+            'editUser.twig',
             [
-                'formData' => $data,
+                'currentPage' => ['profile', 'user'],
+                'formData' => $data
             ]
         );
     }
@@ -138,8 +139,9 @@ class ProfileController
 
         return $this->twig->render(
             $response,
-            'profile.twig',
+            'editUser.twig',
             [
+                'currentPage' => ['profile', 'user'],
                 'formErrors' => $errors,
                 'formData' => $data,
                 'formAction' => $routeParser->urlFor('profile')

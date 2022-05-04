@@ -43,6 +43,7 @@ class MembershipController
             $response,
             'membership.twig',
             [
+                'currentPage' => ['user', 'membership'],
                 'formData' => $data,
             ]
         );
@@ -68,7 +69,7 @@ class MembershipController
         }
         
         $data = [];
-        $data['membership'] = $user->membership;
+        $data['membership'] = $userdata->membership;
 
         return $this->twig->render(
             $response,

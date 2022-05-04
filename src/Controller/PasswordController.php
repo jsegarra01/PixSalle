@@ -33,8 +33,21 @@ class PasswordController
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
                 ->withStatus(302);
         }
+
+        $user = $this->userRepository->getUserByEmail($_SESSION['email']);
+
+        $data = [];
+        $data['username'] = $user->username;
+
+        $data['uuid'] = $user->picture;
+        $data['picture'] = '../uploads/' . $user->picture;
         
-        return $this->twig->render($response,'password.twig');
+        return $this->twig->render($response,'editPassword.twig',
+            [
+                'currentPage' => ['profile', 'password'],
+                'formData' => $data
+            ]
+        );
     }
 
     public function changePassword(Request $request, Response $response): Response
@@ -58,7 +71,12 @@ class PasswordController
         }
         
         $userdata = $this->userRepository->getUserByEmail($_SESSION['email']);
-        
+
+        $data = [];
+        $data['username'] = $userdata->username;
+        $data['uuid'] = $userdata->picture;
+        $data['picture'] = '../uploads/' . $userdata->picture;
+
         $createdAt = date_create_from_format('Y-m-d H:i:s', $userdata->createdAt);
         $updatedAt = date_create_from_format('Y-m-d H:i:s', $userdata->updatedAt);
 
@@ -83,9 +101,11 @@ class PasswordController
 
         return $this->twig->render(
             $response,
-            'password.twig',
+            'editPassword.twig',
             [
+                'currentPage' => ['profile', 'password'],
                 'formErrors' => $errors,
+                'formData' => $data,
                 'formAction' => $routeParser->urlFor('changePassword')
             ]
         );

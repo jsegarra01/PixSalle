@@ -40,6 +40,8 @@ class UserSessionController
             $response, 
             'sign-in.twig',
             [
+                'currentPage' => ['sign-in'],
+                'notSigned' => '1',
                 'formAction' => $routeParser->urlFor('signIn')
             ]);
     }
@@ -77,6 +79,8 @@ class UserSessionController
             $response,
             'sign-in.twig',
             [
+                'currentPage' => ['sign-in'],
+                'notSigned' => '1',
                 'formErrors' => $errors,
                 'formData' => $data,
                 'formAction' => $routeParser->urlFor('signIn')

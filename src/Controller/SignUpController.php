@@ -49,6 +49,8 @@ final class SignUpController
             $response,
             'sign-up.twig',
             [
+                'currentPage' => ['sign-up'],
+                'notSigned' => '1',
                 'formAction' => $routeParser->urlFor('signUp')
             ]
         );
@@ -88,6 +90,8 @@ final class SignUpController
             $response,
             'sign-up.twig',
             [
+                'currentPage' => ['sign-up'],
+                'notSigned' => '1',
                 'formErrors' => $errors,
                 'formData' => $data,
                 'formAction' => $routeParser->urlFor('signUp')

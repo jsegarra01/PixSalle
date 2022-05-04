@@ -1,27 +1,43 @@
-{% extends "baseUser.twig" %}
+{% extends "base.twig" %}
+
+{%block style%}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/membership.css"/>
+{%endblock%}
 
 {% block title %}Membership | PixSalle{% endblock %}
 
 {% block main %}
 
-<p> Current membership status: {{ formData['membership'] }} </p>
+    <h1>Choose a plan!</h1>
 
 <form action="{{ formAction }}" method="POST">
+    <div class="member-container">
+        <input type="radio" id="cool" name="membership" value="Cool" {{ formData['membership'] == "Cool" ? 'checked' : '' }}>
+        <label for="cool" class="{{ formData['membership'] == "Cool" ? "checked" : "unchecked" }}">
+            <span class="title">Cool</span>
+            <span class="benefits-list">
+                <span class="benefit">- Free Plan.</span>
+                <span class="benefit">- View all the pictures.</span>
+                <span class="benefit">- Full access to the blog.</span>
+            </span>
+        </label>
+        <input type="radio" id="active" name="membership" value="Active" {{formData['membership'] == "Active" ? 'checked' : ''}}>
+        <label for="active" class="{{ formData['membership'] == "Active" ? "checked" : "unchecked" }}">
+            <span class="title">Active</span>
+            <span class="benefits-list">
+                <span class="benefit">- Paid Plan.</span>
+                <span class="benefit">- View all the pictures.</span>
+                <span class="benefit">- Full access to the blog.</span>
+                <span class="benefit">- Create albums for 2€</span>
+            </span>
+        </label>
 
-    <p> Select Membership </p>
-
-    <input type="radio" id="cool" name="membership" value="Cool" checked>
-    <label for="cool">Cool</label><br>
-
-    <input type="radio" id="active" name="membership" value="Active">
-    <label for="active">Active</label><br>
-
-    {% if formErrors['general'] %}
-        <p>{{ formErrors['general'] }}</p>
-    {% endif %}
-
+        {% if formErrors['general'] %}
+            <p>{{ formErrors['general'] }}</p>
+        {% endif %}
+    </div>
     <input type="submit" value="Select membership">
-
 </form>
 
 {% endblock %}

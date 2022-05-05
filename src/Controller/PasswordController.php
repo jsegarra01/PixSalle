@@ -72,7 +72,7 @@ class PasswordController
         
         $userdata = $this->userRepository->getUserByEmail($_SESSION['email']);
 
-        $data = [];
+
         $data['username'] = $userdata->username;
         $data['uuid'] = $userdata->picture;
         $data['picture'] = '../uploads/' . $userdata->picture;

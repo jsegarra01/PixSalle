@@ -28,7 +28,7 @@
                 <li></li>
               </ul>
             </li>
-            <li><a href="" class="{{currentPage[0] == 'portfolio' ? 'menu-selected' : ''}}">PORTFOLIO</a></li>
+            <li><a href="{{ url_for('portfolio') }}" class="{{currentPage[0] == 'portfolio' ? 'menu-selected' : ''}}">PORTFOLIO</a></li>
             <li><a href="{{ url_for('profile') }}" class="{{currentPage[0] == 'profile' ? 'menu-selected' : ''}}">PROFILE</a></li>
           </ul>
           {% if notSigned %}

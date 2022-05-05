@@ -25,6 +25,7 @@ nav {
     display: flex;
     justify-content: space-between;
     z-index: 1;
+    border-bottom: var(--dark-blue) 1px solid;
 }
 
 .main-menu,
@@ -82,4 +83,8 @@ main {
 
 a.menu-selected {
     background-color: var(--green-blue);
+}
+
+h1 {
+    color: var(--dark-blue);
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\API\BlogAPIController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
@@ -29,4 +30,15 @@ function addRoutes(App $app): void
 
     $app->get('/user/membership', MembershipController::class . ':showMembership')->setName('membership');
     $app->post('/user/membership', MembershipController::class . ':changeMembership');
+
+    $app->get('/portfolio', PortfolioController::class .':showPortfolio')->setName('portfolio');
+    $app->post('/portfolio', PortfolioController::class .':createPortfolio');
+
+    $app->post('/portfolio/album', PortfolioController::class .':createAlbum')->setName('album');
+
+    $app->get('/portfolio/album/{id}', PortfolioController::class .':showPortfolio');
+    $app->post('/portfolio/album/{id}', PortfolioController::class .':showPortfolio');
+    $app->delete('/portfolio/album/{id}', PortfolioController::class .':showPortfolio');
+
+
 }

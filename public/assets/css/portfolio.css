@@ -1,0 +1,130 @@
+h1 {
+    text-align: center;
+}
+
+h2 {
+    color: var(--beige);
+}
+
+p {
+    color: var(--green-blue);
+}
+
+.album-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.album {
+    width: 325px;
+    height: 427px;
+    margin: 16px 0;
+    position: relative;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: var(--green-blue);
+}
+
+.album h2 {
+    text-align: center;
+    margin: 80px 0;
+    background-color: var(--green);
+}
+
+.album-action-container {
+    display: none;
+    justify-content: space-around;
+    left: 0;
+    right: 0;
+    bottom: 32px;
+    position: absolute;
+}
+
+.album-action-container input[type="submit"] {
+    height: 32px;
+    width: 128px;
+    border-radius: 8px;
+    color: var(--beige);
+}
+
+.open {
+    background-color: var(--green);
+    border: var(--green) 4px solid;
+}
+
+.open:hover {
+    outline: var(--dark-blue) 4px solid;
+}
+
+.delete {
+    background-color: #710c04;
+    border: #710c04 4px solid;
+}
+
+.delete:hover {
+    outline: #4e0707 3px solid;
+}
+
+.album:hover .album-action-container {
+    display: flex;
+}
+
+
+.album-container .create-form {
+    background-color: var(--green-blue);
+}
+
+.album-container .create-form input{
+    background-color: var(--green);
+    border: var(--green) 4px solid;
+}
+
+.create-form {
+    gap: 24px;
+    padding: 156px 0;
+    margin: 8px 0;
+    align-self: center;
+    display: inline-flex;
+    flex-direction: column;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: var(--dark-blue);
+}
+
+.create-form label {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--beige);
+}
+
+.create-form input {
+    height: 32px;
+    width: 325px;
+    font-size: 75%;
+    color: var(--beige);
+    background-color: var(--green-blue);
+    border: var(--green-blue) 4px solid;
+}
+
+.create-form input[type="submit"] {
+    font-weight: bold;
+    font-size: 90%;
+}
+
+.create-form input[type='text']:focus {
+    outline: var(--green) 3px solid;
+}
+
+input[type="submit"]:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+.portfolio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,0 +1,23 @@
+{% extends "base.twig" %}
+
+{% block title %}Wallet | PixSalle{% endblock %}
+
+{% block main %}
+
+    <div class="user-main-information">
+        <div class="user-info">
+            <h3>You currently have {{ funds }}€</h3>
+            <form data-cy="wallet" action="{{ formAction }}" method="POST">
+                <input data-cy="sign-in__email" type="text" name="amount" placeholder="Enter desired amount">
+                {% if formErrors['amount'] %}
+                    <p data-cy="wallet__wrongAmount">{{ formErrors['amount'] }}</p>
+                {% endif %}
+                {% if addedFunds %}
+                    <p data-cy="wallet__added">{{ addedFunds }}</p>
+                {% endif %}
+                <input data-cy="wallet__btn" type="submit" value="Add funds to wallet">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

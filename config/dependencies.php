@@ -8,12 +8,14 @@ use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Repository\MySQLAlbumRepository;
+use Salle\PixSalle\Repository\MySQLPictureRepository;
 use Salle\PixSalle\Repository\MySQLPortfolioRepository;
 use Salle\PixSalle\Repository\MySQLUserRepository;
 use Salle\PixSalle\Repository\PDOConnectionBuilder;
 use Salle\PixSalle\Controller\ProfileController;
 use Salle\PixSalle\Controller\PasswordController;
 use Salle\PixSalle\Controller\MembershipController;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
 function addDependencies(ContainerInterface $container): void
@@ -22,6 +24,13 @@ function addDependencies(ContainerInterface $container): void
         'view',
         function () {
             return Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+        }
+    );
+
+    $container->set(
+        'flash',
+        function () {
+            return new Messages();
         }
     );
 
@@ -55,6 +64,12 @@ function addDependencies(ContainerInterface $container): void
         });
 
     $container->set(
+        'picture_repository',
+        function (ContainerInterface $container) {
+            return new MySQLPictureRepository($container->get('db'));
+        });
+
+    $container->set(
         UserSessionController::class,
         function (ContainerInterface $c) {
             return new UserSessionController($c->get('view'), $c->get('user_repository'));
@@ -71,7 +86,7 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         ExploreController::class,
         function (ContainerInterface $c) {
-            return new ExploreController($c->get('view'), $c->get('user_repository'));
+            return new ExploreController($c->get('view'), $c->get('picture_repository'));
         }
     );
 
@@ -99,7 +114,7 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         PortfolioController::class,
         function (ContainerInterface $c) {
-            return new PortfolioController($c->get('view'), $c->get('portfolio_repository'), $c->get('album_repository'));
+            return new PortfolioController($c->get('view'),$c->get('flash') , $c->get('portfolio_repository'), $c->get('album_repository'), $c->get('picture_repository'));
         }
     );
 }

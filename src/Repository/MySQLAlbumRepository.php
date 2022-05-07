@@ -44,4 +44,16 @@ class MySQLAlbumRepository {
         return $statement->fetchAll(PDO::FETCH_NAMED);
     }
 
+    public function deleteAlbum(int $albumID) {
+        $query = <<<'QUERY'
+        DELETE FROM album WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam('id', $albumID, PDO::PARAM_INT);
+
+        $statement->execute();
+    }
+
 }

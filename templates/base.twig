@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% block style %}
       <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/base.css"/>
-      <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/baseUser.css"/>
     {% endblock %}
     {% block head %}
     {% endblock %}
@@ -47,6 +46,12 @@
       <footer>
 
       </footer>
+    {% endblock %}
+    {% block scripts %}
+      <script
+              src="https://code.jquery.com/jquery-3.4.0.min.js"
+              integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+              crossorigin="anonymous"></script>
     {% endblock %}
   </body>
 </html>

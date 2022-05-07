@@ -5,28 +5,29 @@
     <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/portfolio.css"/>
 {% endblock %}
 
-{% block title %} Album | PixSalle {% endblock %}
+{% block title %} Portfolio | PixSalle {% endblock %}
 
 {% block main %}
 
     {% if portfolio['id'] %}
         <h1>{{ portfolio['title'] }}</h1>
         <div class="album-container">
-            <form action="{{ url_for('album')}}" method="POST" class="create-form">
+            <form id="add-object" action="{{ url_for('album')}}" method="POST" class="create-form">
                 <label>
                     Title: <br>
-                    <input type="text" name="title">
+                    <input type="text" name="info">
                 </label>
+                <span id="title-error"></span>
                 <input type="submit" value="CREATE ALBUM">
             </form>
             {% for album in albums %}
                 <div class="album">
                     <h2>{{ album['name'] }}</h2>
                     <div class="album-action-container">
-                        <form action="{{ url_for('album')}}/{{ album['id'] }}" method="GET">
+                        <form action="{{ url_for('album')~'/'~ album['id']}}" method="GET">
                             <input type="submit" value="OPEN" class="open">
                         </form>
-                        <form id="delete-album" action="{{ url_for('album')}}/{{ album['id'] }}" method="post">
+                        <form class="delete-object" name="album" action="{{ url_for('album')~'/'~album['id'] }}">
                             <input type="submit" value="DELETE" class="delete">
                         </form>
                     </div>
@@ -37,15 +38,23 @@
         <div class="portfolio-container">
             <h1>Don't wait anymore, create your Portfolio now!</h1>
             <p>Remember that you can only have 1 portfolio.</p>
-            <form action="{{ url_for('portfolio')}}" method="POST" class="create-form">
+            <form id="add-object" class="create-form" action="{{ url_for('portfolio')}}" method="POST">
                 <label>
                     Title: <br>
-                    <input type="text" name="title">
+                    <input type="text" name="info">
                 </label>
+                <span id="title-error"></span>
                 <input type="submit" value="CREATE PORTFOLIO">
             </form>
         </div>
-
     {% endif %}
 
 {%endblock%}
+
+{% block scripts %}
+    {{ parent() }}
+    <script
+            type="application/javascript"
+            src="{{ full_url_for('signIn2') }}assets/js/portfolioAJAX.js">
+    </script>
+{% endblock %}

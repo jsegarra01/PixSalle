@@ -9,16 +9,14 @@
 
 {% block main %}
     <h1>ALL IMAGES</h1>
-    {% for image in images %}
-        <div class="image-container">
-            {% for i in 0..10 %}
-                <div class="image-info">
-                    <img src="uploads/{{ image['picture'] }}" alt="">
-                    <div class="dark-gradient"></div>
-                    <p class="username">{{ image['username'] }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+    <div class="image-container">
+        {% for image in images %}
+            <div class="image-info">
+                <img src="{{ image['pic_url'] }}" alt="">
+                <div class="dark-gradient"></div>
+                <p class="username">{{ image['username'] }}</p>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

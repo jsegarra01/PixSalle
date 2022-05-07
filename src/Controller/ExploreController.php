@@ -4,17 +4,18 @@ namespace Salle\PixSalle\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Salle\PixSalle\Repository\MySQLPictureRepository;
 use Salle\PixSalle\Repository\MySQLUserRepository;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
 class ExploreController {
     private Twig $twig;
-    private MySQLUserRepository $userRepository;
+    private MySQLPictureRepository $pictureRepository;
 
-    public function __construct(Twig $twig, MySQLUserRepository $userRepository) {
+    public function __construct(Twig $twig, MySQLPictureRepository $pictureRepository) {
         $this->twig = $twig;
-        $this->userRepository = $userRepository;
+        $this->pictureRepository = $pictureRepository;
     }
 
     // Show the profile pictures, when we implement the other section we will be updated to show the pictures of the user.
@@ -31,7 +32,7 @@ class ExploreController {
             'explore.twig',
             [
                 'currentPage' => ['explore'],
-                'images' => $this->userRepository->getUserAllPP()
+                'images' => $this->pictureRepository->getAllPicturesUser()
             ]
         );
     }

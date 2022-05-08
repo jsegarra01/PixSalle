@@ -56,11 +56,12 @@ class WalletController
             unset($errors['amount']);
         }
 
+        $thisUser = $this->userRepository->getFunds($_SESSION["user_id"]);
+
         if (empty($errors)) {
             $added = "The funds have been correctly added to your wallet";
             $funds = $this->userRepository->updateFunds($_SESSION["user_id"], $data['amount']);
         } else {
-            $thisUser = $this->userRepository->getFunds($_SESSION["user_id"]);
             $funds = $thisUser->funds;
         }
 
@@ -73,6 +74,7 @@ class WalletController
                 'formErrors' => $errors,
                 'addedFunds' => $added,
                 'funds' => $funds,
+                'user' => $thisUser->username,
             ]);
     }
 }

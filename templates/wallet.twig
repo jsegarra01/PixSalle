@@ -10,6 +10,7 @@
 {% block main %}
 
     <div class="form-container">
+        <h1>Hi {{ user }}</h1>
         <div class="user-info">
             <h1>You currently have {{ funds }}€</h1>
             <form data-cy="wallet" action="{{ formAction }}" method="POST">

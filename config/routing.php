@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Salle\PixSalle\Controller\API\BlogAPIController;
+use Salle\PixSalle\Controller\BlogController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
@@ -29,4 +30,7 @@ function addRoutes(App $app): void
 
     $app->get('/user/membership', MembershipController::class . ':showMembership')->setName('membership');
     $app->post('/user/membership', MembershipController::class . ':changeMembership');
+
+    $app->get('/api/blog', BlogController::class . ':showBlog')->setName('blog');
+    //$app->post('/api/blog', MembershipController::class . ':postBlog');
 }

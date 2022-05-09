@@ -23,7 +23,7 @@
             <li>
               <a class="{{currentPage[0] == 'user' ? 'menu-selected' : ''}}">USER</a>
               <ul class="dropdown-menu">
-                <li><a href="" class="{{currentPage[1] == 'wallet' ? 'menu-selected' : ''}}">WALLET</a></li>
+                <li><a href="{{ url_for('wallet') }}" class="{{currentPage[1] == 'wallet' ? 'menu-selected' : ''}}">WALLET</a></li>
                 <li><a href="{{ url_for('membership') }}" class="{{currentPage[1] == 'membership' ? 'menu-selected' : ''}}">MEMBERSHIP</a></li>
                 <li></li>
               </ul>

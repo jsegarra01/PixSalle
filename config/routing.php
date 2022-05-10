@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\API\BlogAPIController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
@@ -31,6 +32,19 @@ function addRoutes(App $app): void
     $app->get('/user/membership', MembershipController::class . ':showMembership')->setName('membership');
     $app->post('/user/membership', MembershipController::class . ':changeMembership');
 
+    $app->get('/portfolio', PortfolioController::class .':showPortfolio')->setName('portfolio');
+    $app->post('/portfolio', PortfolioController::class .':createPortfolio');
+
+    $app->post('/portfolio/album', PortfolioController::class .':createAlbum')->setName('album');
+
+    $app->post('/portfolio/album/qr/{id}', PortfolioController::class .':generateQR')->setName('qr');
+    $app->get('/portfolio/album/qr/{id}', PortfolioController::class .':downloadQR');
+
+    $app->get('/portfolio/album/{id}', PortfolioController::class .':showAlbum')->setName('picture');
+    $app->post('/portfolio/album/{id}', PortfolioController::class .':uploadPicture');
+    $app->delete('/portfolio/album/{id}', PortfolioController::class .':deleteAlbumPicture');
+
     $app->get('/user/wallet', WalletController::class . ':showWallet')->setName('wallet');
     $app->post('/user/wallet', WalletController::class . ':postMoney');
+
 }

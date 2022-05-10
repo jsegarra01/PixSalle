@@ -22,7 +22,7 @@ form {
 
 input {
     height: 32px;
-    width: 340px;
+    width: 325px;
     font-size: 100%;
     color: var(--beige);
     background-color: var(--green-blue);
@@ -39,9 +39,8 @@ input[type="submit"] {
     padding: 0 4px;
 }
 
-p {
-    color: red;
-    align-self: flex-start;
+.error {
+    border-radius: 4px;
 }
 
 ::placeholder {

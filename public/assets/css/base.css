@@ -4,6 +4,7 @@
     --green: #417D7A;
     --green-blue: #1D5C63;
     --dark-blue: #1A3C40;
+    --red-error: #900603;
 }
 
 * {
@@ -25,6 +26,7 @@ nav {
     display: flex;
     justify-content: space-between;
     z-index: 1;
+    border-bottom: var(--dark-blue) 1px solid;
 }
 
 .main-menu,
@@ -82,4 +84,25 @@ main {
 
 a.menu-selected {
     background-color: var(--green-blue);
+}
+
+h1 {
+    color: var(--dark-blue);
+}
+
+.error {
+    height: 32px;
+    width: 325px;
+    text-align: center;
+    line-height: 32px;
+    color: var(--beige);
+    background-color: var(--red-error);
+}
+
+.flash-error {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 72px;
+    color: var(--red-error);
 }

@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% block style %}
       <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/base.css"/>
-      <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/baseUser.css"/>
     {% endblock %}
     {% block head %}
     {% endblock %}
@@ -28,7 +27,7 @@
                 <li></li>
               </ul>
             </li>
-            <li><a href="" class="{{currentPage[0] == 'portfolio' ? 'menu-selected' : ''}}">PORTFOLIO</a></li>
+            <li><a href="{{ url_for('portfolio') }}" class="{{currentPage[0] == 'portfolio' ? 'menu-selected' : ''}}">PORTFOLIO</a></li>
             <li><a href="{{ url_for('profile') }}" class="{{currentPage[0] == 'profile' ? 'menu-selected' : ''}}">PROFILE</a></li>
           </ul>
           {% if notSigned %}
@@ -45,8 +44,15 @@
         {% endblock %}
       </main>
       <footer>
-
+          {% block footer %}
+          {% endblock %}
       </footer>
+    {% endblock %}
+    {% block scripts %}
+      <script
+              src="https://code.jquery.com/jquery-3.4.0.min.js"
+              integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+              crossorigin="anonymous"></script>
     {% endblock %}
   </body>
 </html>

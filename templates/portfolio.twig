@@ -1,0 +1,77 @@
+{% extends "base.twig" %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/portfolio.css"/>
+{% endblock %}
+
+{% block title %} Portfolio | PixSalle {% endblock %}
+
+{% block main %}
+    {% if portfolioError is not empty %}
+        <span class="flash-error">{{ portfolioError }}</span>
+    {% endif %}
+    {% if portfolio['id'] %}
+        <h1>{{ portfolio['title'] }}</h1>
+        <div class="album-container">
+            <form id="add-object" action="{{ url_for('album')}}" method="POST" class="create-form">
+                <label>
+                    Title: <br>
+                    <input type="text" name="info">
+                </label>
+                <span id="title-error"></span>
+                <input type="submit" value="CREATE ALBUM">
+            </form>
+            {% for album in albums %}
+                <div class="album">
+                    <h2>{{ album['name'] }}</h2>
+                    {% if qrError is not empty %}
+                        <span id="title-error" class="error">{{ messageError }}</span>
+                    {% endif %}
+                    {% if album['qr_image'] != 0 %}
+                        <img src="{{ album['qr_image'] }}" alt="">
+                    {% endif %}
+                    <div class="album-action-container">
+                        <form action="{{ url_for('album')~'/'~ album['id']}}" method="GET">
+                            <input type="submit" value="OPEN" class="open">
+                        </form>
+                        <form class="delete-object" name="album" action="{{ url_for('album')~'/'~album['id'] }}">
+                            <input type="submit" value="DELETE" class="delete">
+                        </form>
+                        {% if album['qr_image'] == 0 %}
+                            <form action="{{ url_for('album')~'/qr/'~ album['id']}}" method="POST">
+                                <input type="submit" value="GENERATE QR" class="qr">
+                            </form>
+                        {% else %}
+                            <form action="{{ url_for('album')~'/qr/'~ album['id']}}" method="GET">
+                                <input type="submit" value="DOWNLOAD QR" class="qr">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="portfolio-container">
+            <h1>Don't wait anymore, create your Portfolio now!</h1>
+            <p>Remember that you can only have 1 portfolio.</p>
+            <form id="add-object" class="create-form" action="{{ url_for('portfolio')}}" method="POST">
+                <label>
+                    Title: <br>
+                    <input type="text" name="info">
+                </label>
+                <span id="title-error"></span>
+                <input type="submit" value="CREATE PORTFOLIO">
+            </form>
+        </div>
+    {% endif %}
+
+{%endblock%}
+
+{% block scripts %}
+    {{ parent() }}
+    <script
+            type="application/javascript"
+            src="{{ full_url_for('signIn2') }}assets/js/portfolioAJAX.js">
+    </script>
+{% endblock %}

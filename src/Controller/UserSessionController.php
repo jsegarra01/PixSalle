@@ -72,6 +72,7 @@ class UserSessionController
             } else {
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['email'] = $data['email'];
+                $_SESSION['username'] = $user->username;
                 return $response->withHeader('Location','/profile')->withStatus(302);
             }
         }

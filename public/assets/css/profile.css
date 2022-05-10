@@ -76,7 +76,7 @@ input[type="file"] {
 }
 
 form p {
-        color: red;
+        color: var(--red-error);
         align-self: flex-start;
 }
 

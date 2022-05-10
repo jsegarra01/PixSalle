@@ -36,6 +36,9 @@ input[type="radio"]:checked + label {
 
 input[type="submit"] {
     height: 32px;
+    width: 325px;
+    font-weight: bold;
+    font-size: 90%;
     padding: 0 4px;
     color: var(--beige);
     align-self: center;

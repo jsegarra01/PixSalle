@@ -1,0 +1,54 @@
+{% extends "base.twig" %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/album.css"/>
+{% endblock %}
+
+{% block main %}
+    {% if albumError is not empty %}
+        <span class="flash-error">{{ albumError }}</span>
+    {% endif %}
+
+    <div class="header-container">
+        {% if notSigned == 0 %}
+            <a class="go-back" href="{{ url_for('portfolio') }}">Go back</a>
+        {% endif %}
+        <h1>{{ albumName }}</h1>
+    </div>
+    <div class="image-container">
+        {% if notSigned == 0 %}
+            {% if isAlbumOwner == 1 %}
+                <form id="add-object" class="image-base" action="{{url_for('album')~'/'~albumID}}" method="post">
+                    <label>
+                        Image URL<br>
+                        <input type="text" name="info">
+                    </label>
+                    <span id="title-error"></span>
+                    <input type="submit" value="ADD IMAGE">
+                </form>
+            {% endif %}
+        {% endif %}
+
+        {% for picture in pictures %}
+            <div class="image image-base">
+                <img src="{{ picture['pic_url'] }}" alt="">
+                {% if notSigned == 0 %}
+                    {% if isAlbumOwner == 1 %}
+                        <form class="delete-object" name="{{ picture['id'] }}" action="{{url_for('album')~'/'~albumID}}">
+                            <input type="submit" value="DELETE">
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script
+            type="application/javascript"
+            src="{{ full_url_for('signIn2') }}assets/js/portfolioAJAX.js">
+    </script>
+{% endblock %}

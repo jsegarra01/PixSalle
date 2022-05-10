@@ -21,12 +21,17 @@ $(document).ready(function() {
                 console.log(data['url']);
             })
             .fail(function(error) {
+                console.log(error)
                 errorField.innerText = "";
+                errorField.classList.remove("error");
+                if (error.responseJSON.url) {
+                    window.location.href = error.responseJSON.url;
+                }
                 if (error.responseJSON.error) {
                     errorField.classList.add("error");
                     errorField.append(error.responseJSON.error);
                 }
-                console.log(error.responseJSON.error);
+
             });
     });
 

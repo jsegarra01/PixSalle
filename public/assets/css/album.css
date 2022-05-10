@@ -1,3 +1,18 @@
+.header-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.go-back {
+    border-radius: 8px;
+    text-decoration: none;
+    align-self: center;
+    padding: 8px 4px;
+    color: var(--beige);
+    background-color: var(--dark-blue);
+}
+
 .image-container {
     display: flex;
     flex-wrap: wrap;
@@ -87,4 +102,12 @@ img {
 
 .error {
     width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: var(--beige) !important;
 }

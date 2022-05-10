@@ -98,3 +98,11 @@ h1 {
     color: var(--beige);
     background-color: var(--red-error);
 }
+
+.flash-error {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-top: 72px;
+    color: var(--red-error);
+}

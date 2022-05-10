@@ -107,14 +107,14 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         MembershipController::class,
         function (ContainerInterface $c) {
-            return new MembershipController($c->get('view'), $c->get('user_repository'));
+            return new MembershipController($c->get('view'), $c->get('flash'), $c->get('user_repository'));
         }
     );
 
     $container->set(
         PortfolioController::class,
         function (ContainerInterface $c) {
-            return new PortfolioController($c->get('view'),$c->get('flash') , $c->get('portfolio_repository'), $c->get('album_repository'), $c->get('picture_repository'));
+            return new PortfolioController($c->get('view'),$c->get('flash') , $c->get('user_repository'), $c->get('portfolio_repository'), $c->get('album_repository'), $c->get('picture_repository'));
         }
     );
 }

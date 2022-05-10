@@ -36,6 +36,9 @@ function addRoutes(App $app): void
 
     $app->post('/portfolio/album', PortfolioController::class .':createAlbum')->setName('album');
 
+    $app->post('/portfolio/album/qr/{id}', PortfolioController::class .':generateQR')->setName('qr');
+    $app->get('/portfolio/album/qr/{id}', PortfolioController::class .':downloadQR');
+
     $app->get('/portfolio/album/{id}', PortfolioController::class .':showAlbum')->setName('picture');
     $app->post('/portfolio/album/{id}', PortfolioController::class .':uploadPicture');
     $app->delete('/portfolio/album/{id}', PortfolioController::class .':deleteAlbumPicture');

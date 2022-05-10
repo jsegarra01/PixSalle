@@ -8,19 +8,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Model\User;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
 class MembershipController
 {
     private Twig $twig;
+    private Messages $flash;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -38,6 +42,10 @@ class MembershipController
 
         $data = [];
         $data['membership'] = $user->membership;
+
+        $messages = $this->flash->getMessages();
+
+        $membershipError = $messages['membershipError'][0] ?? "";
         
         return $this->twig->render(
             $response,
@@ -45,6 +53,7 @@ class MembershipController
             [
                 'currentPage' => ['user', 'membership'],
                 'formData' => $data,
+                'membershipError' => $membershipError
             ]
         );
     }

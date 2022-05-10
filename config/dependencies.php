@@ -10,6 +10,7 @@ use Salle\PixSalle\Controller\UserSessionController;
 use Salle\PixSalle\Repository\MySQLAlbumRepository;
 use Salle\PixSalle\Repository\MySQLPictureRepository;
 use Salle\PixSalle\Repository\MySQLPortfolioRepository;
+use Salle\PixSalle\Controller\WalletController;
 use Salle\PixSalle\Repository\MySQLUserRepository;
 use Salle\PixSalle\Repository\PDOConnectionBuilder;
 use Salle\PixSalle\Controller\ProfileController;
@@ -87,6 +88,13 @@ function addDependencies(ContainerInterface $container): void
         ExploreController::class,
         function (ContainerInterface $c) {
             return new ExploreController($c->get('view'), $c->get('picture_repository'));
+        }
+    );
+
+    $container->set(
+        WalletController::class,
+        function (ContainerInterface $c) {
+            return new WalletController($c->get('view'), $c->get('user_repository'));
         }
     );
 

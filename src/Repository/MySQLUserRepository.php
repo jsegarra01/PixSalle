@@ -22,8 +22,8 @@ final class MySQLUserRepository implements UserRepository
     public function createUser(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO users(email, password, createdAt, updatedAt, username, phone, picture, membership)
-        VALUES(:email, :password, :createdAt, :updatedAt, :username, :phone, :picture, :membership)
+        INSERT INTO users(email, password, createdAt, updatedAt, username, phone, picture, membership, funds)
+        VALUES(:email, :password, :createdAt, :updatedAt, :username, :phone, :picture, :membership, :funds)
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
@@ -36,6 +36,7 @@ final class MySQLUserRepository implements UserRepository
         $phone = $user->phone();
         $picture = $user->picture();
         $membership = $user->membership();
+        $funds = 30;
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
@@ -45,6 +46,7 @@ final class MySQLUserRepository implements UserRepository
         $statement->bindParam('phone', $phone, PDO::PARAM_STR);
         $statement->bindParam('picture', $picture, PDO::PARAM_STR);
         $statement->bindParam('membership', $membership, PDO::PARAM_STR);
+        $statement->bindParam('funds', $funds, PDO::PARAM_INT);
 
         $statement->execute();
     }
@@ -98,6 +100,49 @@ final class MySQLUserRepository implements UserRepository
             return $row;
         }
         return null;
+    }
+
+    public function getFunds(int $id)
+    {
+        $query = <<<'QUERY'
+        SELECT * FROM users WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $count = $statement->rowCount();
+        if ($count > 0) {
+            $row = $statement->fetch(PDO::FETCH_OBJ);
+            return $row;
+        }
+        return null;
+    }
+
+    public function updateFunds(int $id, int $amount): int
+    {
+        $user = $this->getFunds($id);
+
+        $amount = $amount + $user->funds;
+
+        $query = <<<'QUERY'
+        UPDATE users
+        SET funds=:funds
+        WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+        $statement->bindParam('funds', $amount, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        return (int) $amount;
+
     }
 
     public function getUserAllPP() {

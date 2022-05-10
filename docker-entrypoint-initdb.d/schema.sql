@@ -18,6 +18,7 @@ CREATE TABLE `users`
     `phone`     VARCHAR(255)                                            NULL,
     `picture`   VARCHAR(255)                                            NULL,
     `membership`   VARCHAR(255)                                         NOT NULL,
+    `funds`     INT                                                     NOT NULL,
 
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

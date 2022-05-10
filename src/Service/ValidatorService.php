@@ -38,6 +38,14 @@ class ValidatorService
     return '';
   }
 
+  public function validateAmount(string $amount)
+  {
+      if (empty($amount) || (int) $amount <= 0) {
+          return 'Funds to add must be greater than 0';
+      }
+      return '';
+  }
+
   public function validatePhone(string $phone)
   {
     if (!empty($phone)) {

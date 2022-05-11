@@ -7,10 +7,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Model\Album;
 use Salle\PixSalle\Model\Picture;
 use Salle\PixSalle\Model\Portfolio;
+use Salle\PixSalle\Repository\AlbumRepository;
 use Salle\PixSalle\Repository\MySQLAlbumRepository;
 use Salle\PixSalle\Repository\MySQLPictureRepository;
 use Salle\PixSalle\Repository\MySQLPortfolioRepository;
 use Salle\PixSalle\Repository\MySQLUserRepository;
+use Salle\PixSalle\Repository\PictureRepository;
+use Salle\PixSalle\Repository\PortfolioRepository;
+use Salle\PixSalle\Repository\UserRepository;
 use Slim\Flash\Messages;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
@@ -19,12 +23,12 @@ class PortfolioController {
 
     private Twig $twig;
     private Messages $flash;
-    private MySQLUserRepository $userRepository;
-    private MySQLPortfolioRepository $portfolioRepository;
-    private MySQLAlbumRepository $albumRepository;
-    private MySQLPictureRepository $pictureRepository;
+    private UserRepository $userRepository;
+    private PortfolioRepository $portfolioRepository;
+    private AlbumRepository $albumRepository;
+    private PictureRepository $pictureRepository;
 
-    public function __construct(Twig $twig, Messages $flash, MySQLUserRepository $userRepository, MySQLPortfolioRepository $portfolioRepository, MySQLAlbumRepository $albumRepository, MySQLPictureRepository $pictureRepository) {
+    public function __construct(Twig $twig, Messages $flash, UserRepository $userRepository, PortfolioRepository $portfolioRepository, AlbumRepository $albumRepository, PictureRepository $pictureRepository) {
         $this->twig = $twig;
         $this->flash = $flash;
         $this->userRepository = $userRepository;
@@ -149,22 +153,31 @@ class PortfolioController {
         if (isset($_SESSION["user_id"])) {
             $user = $this->userRepository->getUserByEmail($_SESSION['email']);
             if ($user->membership == 'Active') {
-                if (!empty($data['fieldInfo'])) {
-                    $portfolio = $this->portfolioRepository->getUserPortfolio($_SESSION['user_id']);
+                if ($user->funds >= 2) {
+                    if (!empty($data['fieldInfo'])) {
+                        $this->userRepository->updateFunds($_SESSION["user_id"], -2);
 
-                    $album = new Album($data['fieldInfo'],$portfolio['id']);
+                        $portfolio = $this->portfolioRepository->getUserPortfolio($_SESSION['user_id']);
 
-                    $this->albumRepository->createAlbum($album);
+                        $album = new Album($data['fieldInfo'], $portfolio['id']);
 
-                    $dataResponse['url'] = $routeParser->urlFor("portfolio");
+                        $this->albumRepository->createAlbum($album);
 
-                    $response->getBody()->write(json_encode($dataResponse));
+                        $dataResponse['url'] = $routeParser->urlFor("portfolio");
 
-                    return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+                        $response->getBody()->write(json_encode($dataResponse));
+
+                        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+                    } else {
+                        $dataResponse['error'] = "This field cannot be empty!";
+                    }
                 } else {
-                    $dataResponse['error'] = "This field cannot be empty!";
+                    $dataResponse['url'] = $routeParser->urlFor("wallet");
+                    $this->flash->addMessage(
+                        'walletError',
+                        'You need at least 2€ to create an album!'
+                    );
                 }
-
             } else {
                 $dataResponse['url'] = $routeParser->urlFor("membership");
                 $this->flash->addMessage(
@@ -232,9 +245,11 @@ class PortfolioController {
 
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
 
+        $qrName = $_SESSION['username'] . '_Album_' . $args['id'] . '.png';
+
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=username.jpeg");
+        header("Content-Disposition: attachment; filename=$qrName");
         header("Content-Type: application/zip");
         header("Content-Transfer-Encoding: binary");
 

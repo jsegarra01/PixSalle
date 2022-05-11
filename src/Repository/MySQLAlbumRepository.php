@@ -5,7 +5,7 @@ namespace Salle\PixSalle\Repository;
 use PDO;
 use Salle\PixSalle\Model\Album;
 
-class MySQLAlbumRepository {
+class MySQLAlbumRepository implements AlbumRepository {
 
     private PDO $databaseConnection;
 

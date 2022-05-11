@@ -2,7 +2,7 @@
 
 {%block style%}
 {{ parent() }}
-  <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/profile.css"/>
+  <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/profile.css"/>
 {%endblock%}
 {% block title %}Profile | PixSalle{% endblock %}
 
@@ -12,10 +12,6 @@
     <img src="{{ formData['picture'] }}" alt="{{formData['uuid']}}" height=200 width=200>
     <div class="user-info">
       <h1>{{ formData['username'] }}</h1>
-      <div class="user-stats">
-        <p>Nº Albums</p>
-        <p>Nº Pictures</p>
-      </div>
     </div>
   </div>
 

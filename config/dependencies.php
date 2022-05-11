@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
 use Salle\PixSalle\Controller\ExploreController;
+use Salle\PixSalle\Controller\HomeController;
 use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
@@ -71,9 +72,16 @@ function addDependencies(ContainerInterface $container): void
         });
 
     $container->set(
+        HomeController::class,
+        function (ContainerInterface $c) {
+            return new HomeController($c->get('view'));
+        }
+    );
+
+    $container->set(
         UserSessionController::class,
         function (ContainerInterface $c) {
-            return new UserSessionController($c->get('view'), $c->get('user_repository'));
+            return new UserSessionController($c->get('view'), $c->get('flash') ,$c->get('user_repository'));
         }
     );
 
@@ -87,28 +95,28 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         ExploreController::class,
         function (ContainerInterface $c) {
-            return new ExploreController($c->get('view'), $c->get('picture_repository'));
+            return new ExploreController($c->get('view'), $c->get('flash') ,$c->get('picture_repository'));
         }
     );
 
     $container->set(
         WalletController::class,
         function (ContainerInterface $c) {
-            return new WalletController($c->get('view'), $c->get('user_repository'));
+            return new WalletController($c->get('view'), $c->get('flash') ,$c->get('user_repository'));
         }
     );
 
     $container->set(
         ProfileController::class,
         function (ContainerInterface $c) {
-            return new ProfileController($c->get('view'), $c->get('user_repository'));
+            return new ProfileController($c->get('view'), $c->get('flash') ,$c->get('user_repository'));
         }
     );
 
     $container->set(
         PasswordController::class,
         function (ContainerInterface $c) {
-            return new PasswordController($c->get('view'), $c->get('user_repository'));
+            return new PasswordController($c->get('view'), $c->get('flash') , $c->get('user_repository'));
         }
     );
 
@@ -122,7 +130,7 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         PortfolioController::class,
         function (ContainerInterface $c) {
-            return new PortfolioController($c->get('view'),$c->get('flash') , $c->get('user_repository'), $c->get('portfolio_repository'), $c->get('album_repository'), $c->get('picture_repository'));
+            return new PortfolioController($c->get('view'), $c->get('flash'), $c->get('user_repository'), $c->get('portfolio_repository'), $c->get('album_repository'), $c->get('picture_repository'));
         }
     );
 }

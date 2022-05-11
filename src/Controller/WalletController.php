@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
+use Slim\Flash\Messages;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
@@ -13,14 +14,17 @@ class WalletController
 {
 
     private Twig $twig;
+    private Messages $flash;
     private ValidatorService $validator;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -29,6 +33,10 @@ class WalletController
     {
 
         if (!isset($_SESSION["user_id"])) {
+            $this->flash->addMessage(
+                'signError',
+                'You have to be logged in to access the WALLET!'
+            );
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
@@ -37,11 +45,16 @@ class WalletController
 
         $thisUser = $this->userRepository->getFunds($_SESSION["user_id"]);
 
+        $messages = $this->flash->getMessages();
+
+        $walletError = $messages['walletError'][0] ?? "";
+
         return $this->twig->render(
             $response,
             'wallet.twig',
             [
                 'currentPage' => ['user', 'wallet'],
+                'walletError' => $walletError,
                 'funds' => $thisUser->funds,
             ]);
     }

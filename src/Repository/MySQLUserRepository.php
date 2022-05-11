@@ -36,7 +36,7 @@ final class MySQLUserRepository implements UserRepository
         $phone = $user->phone();
         $picture = $user->picture();
         $membership = $user->membership();
-        $funds = 30;
+        $funds = $user->funds();
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);

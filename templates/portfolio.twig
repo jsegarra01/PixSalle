@@ -2,7 +2,7 @@
 
 {% block style %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/portfolio.css"/>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/portfolio.css"/>
 {% endblock %}
 
 {% block title %} Portfolio | PixSalle {% endblock %}
@@ -72,6 +72,6 @@
     {{ parent() }}
     <script
             type="application/javascript"
-            src="{{ full_url_for('signIn2') }}assets/js/portfolioAJAX.js">
+            src="{{ full_url_for('home') }}assets/js/portfolioAJAX.js">
     </script>
 {% endblock %}

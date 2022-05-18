@@ -165,6 +165,7 @@ final class MySQLUserRepository implements UserRepository
         SELECT * FROM blogs WHERE title = :title AND content = :content AND user_id = :user_id
         QUERY;
 
+        $statement = $this->databaseConnection->prepare($query);
         $statement->bindParam('user_id', $user_id, PDO::PARAM_STR);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);

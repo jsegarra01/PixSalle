@@ -45,3 +45,15 @@ CREATE TABLE `album`
     FOREIGN KEY (pic_id) REFERENCES picture(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `blogs`;
+CREATE TABLE `blogs`
+(
+    `id`        INT                                                     NOT NULL AUTO_INCREMENT,
+    `title`      VARCHAR(255)                                           NOT NULL,
+    `content`    VARCHAR(255)                                           NOT NULL,
+    `user_id`   INT                                                     NOT NULL,
+
+    PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

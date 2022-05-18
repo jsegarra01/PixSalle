@@ -8,17 +8,15 @@
 {% block title %}Blog | PixSalle{% endblock %}
 
 {% block main %}
-    <h1>ALL IMAGES</h1>
-    {% for image in images %}
+    <h1>ALL BLOGS</h1>
+    {% for blog in blogs %}
         <div class="image-container">
-            {% for i in 0..10 %}
                 <div class="image-info">
-                    <img src="uploads/{{ image['picture'] }}" alt="">
-                    <div class="dark-gradient"></div>
-                    <p class="username">{{ image['username'] }}</p>
+                        <p>{{ blog['title'] }}</p>
+                        <p>{{ blog['content'] }}</p>
+                        <p>{{ blog['user_id'] }}</p>
+                    </form>
                 </div>
-            {% endfor %}
         </div>
     {% endfor %}
-
 {% endblock %}

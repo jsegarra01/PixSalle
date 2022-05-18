@@ -173,4 +173,28 @@ final class MySQLUserRepository implements UserRepository
         $row = $statement->fetchAll(PDO::FETCH_NAMED);
         return $row;
     }
+
+    public function updateBlog(int $id, String $content, String $title)
+    {
+        $query = <<<'QUERY'
+        UPDATE blogs
+        SET title = :title AND content = :content WHERE id = :id
+        QUERY;
+
+        $statement = $this->databaseConnection->prepare($query);
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+        $statement->bindParam('content', $content, PDO::PARAM_STR);
+        $statement->bindParam('title', $title, PDO::PARAM_STR);
+        $statement->execute();
+
+        $query = <<<'QUERY'
+        SELECT * FROM blogs WHERE id = :id
+        QUERY;
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+        $statement->execute();
+
+        $row = $statement->fetchAll(PDO::FETCH_NAMED);
+        return $row;
+    }
 }

@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% block style %}
-      <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/base.css"/>
+      <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/base.css"/>
     {% endblock %}
     {% block head %}
     {% endblock %}
@@ -18,7 +18,8 @@
       <header>
         <nav>
           <ul class="main-menu">
-            <li><a href="{{ url_for('explore') }}" class="{{currentPage[0] == 'explore' ? 'menu-selected' : ''}}">EXPLORE</a></li>
+              <li><a href="{{ url_for('home') }}" class="{{currentPage[0] == 'home' ? 'menu-selected' : ''}}">HOME</a></li>
+              <li><a href="{{ url_for('explore') }}" class="{{currentPage[0] == 'explore' ? 'menu-selected' : ''}}">EXPLORE</a></li>
             <li>
               <a class="{{currentPage[0] == 'user' ? 'menu-selected' : ''}}">USER</a>
               <ul class="dropdown-menu">
@@ -45,6 +46,7 @@
       </main>
       <footer>
           {% block footer %}
+              <p>&copy;Group 3</p>
           {% endblock %}
       </footer>
     {% endblock %}

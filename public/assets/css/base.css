@@ -103,6 +103,11 @@ h1 {
     display: block;
     text-align: center;
     font-size: 32px;
-    margin-top: 72px;
+    margin-top: 80px;
     color: var(--red-error);
+}
+
+footer p {
+    text-align: center;
+    margin: 8px;
 }

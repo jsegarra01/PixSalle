@@ -1,9 +1,13 @@
+.flash-error {
+    height: 32px;
+}
+
 .form-container {
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 64px;
-    margin-top: 172px;
+    margin-top: 32px;
     background-color: var(--dark-blue);
 }
 

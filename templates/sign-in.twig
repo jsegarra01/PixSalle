@@ -2,12 +2,13 @@
 
 {% block style %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/sign.css"/>
+  <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/sign.css"/>
 {% endblock %}
 
 {% block title %}Sign-in | PixSalle{% endblock %}
 
 {% block main %}
+  <span class="flash-error">{{ signError }}</span>
   <div class="form-container">
     <h1>Welcome to PixSalle</h1>
     <form data-cy="sign-in" action="{{ formAction }}" method="POST">

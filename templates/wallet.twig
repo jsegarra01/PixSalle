@@ -2,13 +2,13 @@
 
 {% block style %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/wallet.css"/>
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/wallet.css"/>
 {% endblock %}
 
 {% block title %}Wallet | PixSalle{% endblock %}
 
 {% block main %}
-
+    <span class="flash-error">{{ walletError }}</span>
     <div class="form-container">
         <h1>Hi {{ user }}</h1>
         <div class="user-info">

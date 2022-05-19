@@ -5,7 +5,7 @@ namespace Salle\PixSalle\Repository;
 use PDO;
 use Salle\PixSalle\Model\Picture;
 
-class MySQLPictureRepository {
+class MySQLPictureRepository implements PictureRepository{
 
     private PDO $databaseConnection;
 
@@ -83,7 +83,4 @@ class MySQLPictureRepository {
 
         return $statement->fetchAll(PDO::FETCH_NAMED);
     }
-
-
-
 }

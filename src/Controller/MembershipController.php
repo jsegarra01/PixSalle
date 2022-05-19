@@ -32,6 +32,10 @@ class MembershipController
     public function showMembership(Request $request, Response $response): Response {
 
         if (!isset($_SESSION["user_id"])) {
+            $this->flash->addMessage(
+                'signError',
+                'You have to be logged in to access the MEMBERSHIP!'
+            );
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response
                 ->withHeader('Location', $routeParser->urlFor("signIn"))

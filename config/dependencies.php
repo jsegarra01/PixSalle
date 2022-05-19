@@ -7,6 +7,7 @@ use Salle\PixSalle\Controller\BlogController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
+use Salle\PixSalle\Repository\MySQLBlogRepository;
 use Salle\PixSalle\Repository\MySQLUserRepository;
 use Salle\PixSalle\Repository\PDOConnectionBuilder;
 use Salle\PixSalle\Controller\ProfileController;
@@ -36,6 +37,10 @@ function addDependencies(ContainerInterface $container): void
 
     $container->set('user_repository', function (ContainerInterface $container) {
         return new MySQLUserRepository($container->get('db'));
+    });
+
+    $container->set('blog_repository', function (ContainerInterface $container) {
+        return new MySQLBlogRepository($container->get('db'));
     });
 
     $container->set(
@@ -76,7 +81,7 @@ function addDependencies(ContainerInterface $container): void
     $container->set(
         BlogController::class,
         function (ContainerInterface $c) {
-            return new BlogController($c->get('view'), $c->get('user_repository'));
+            return new BlogController($c->get('view'), $c->get('user_repository'), $c->get('blog_repository'));
         }
     );
 

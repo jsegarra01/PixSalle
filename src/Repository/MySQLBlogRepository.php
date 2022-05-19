@@ -2,7 +2,9 @@
 
 namespace Salle\PixSalle\Repository;
 
-class MySQLBlogRepository
+use PDO;
+
+class MySQLBlogRepository implements BlogRepository
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 

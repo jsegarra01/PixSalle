@@ -19,12 +19,12 @@ class BlogController
 
     public function __construct(
         Twig $twig,
-        UserRepository $userRepository
-        //MySQLBlogRepository $mySQLBlogRepository
+        UserRepository $userRepository,
+        MySQLBlogRepository $mySQLBlogRepository
     ) {
         $this->twig = $twig;
         $this->userRepository = $userRepository;
-        //$this->mySQLBlogRepository = $mySQLBlogRepository;
+        $this->mySQLBlogRepository = $mySQLBlogRepository;
     }
 
     public function showBlog(Request $request, Response $response): Response {
@@ -43,14 +43,14 @@ class BlogController
             'blog.twig',
             [
                 'currentPage' => ['blog'],
-                'blogs' => $this->userRepository->getUserAllBlogs(),
+                'blogs' => $this->mySQLBlogRepository->getUserAllBlogs(),
             ]
         );
     }
 
     public function getBlog(Request $request, Response $response): Response
     {
-        $blogs = $this->userRepository->getUserAllBlogs();
+        $blogs = $this->mySQLBlogRepository->getUserAllBlogs();
         $response->getBody()->write(json_encode($blogs));
         return $response;
     }
@@ -63,7 +63,7 @@ class BlogController
             $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         } else {
             $data = json_decode((string) $request->getBody(), true);
-            $blog = $this->userRepository->postBlog($data['title'], $data['content'], $data['userId']);
+            $blog = $this->mySQLBlogRepository->postBlog($data['title'], $data['content'], $data['userId']);
             $response->getBody()->write(json_encode($blog));
         }
 
@@ -79,7 +79,7 @@ class BlogController
             'individualBlog.twig',
             [
                 'currentPage' => ['blog'],
-                'blogs' => $this->userRepository->getBlogById($id)
+                'blogs' => $this->mySQLBlogRepository->getBlogById($id)
             ]
         );
     }
@@ -87,13 +87,13 @@ class BlogController
     public function getApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
 
-        $user_exists = $this->userRepository->getBlogById($args['id']);
-        if(!empty($user_exists)) {
+        $user_exists = $this->mySQLBlogRepository->getBlogById($id);
+        if(empty($user_exists)) {
             $data = ['message' => "Blog entry with id {$id} does not exist"];
             $response->getBody()->write(json_encode($data));
             $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         } else {
-            $blog = $this->userRepository->getBlogById($id);
+            $blog = $this->mySQLBlogRepository->getBlogById($id);
             $response->getBody()->write(json_encode($blog));
         }
 
@@ -108,14 +108,13 @@ class BlogController
             $response->getBody()->write(json_encode($data));
             $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         } else {
-            $user_exists = $this->userRepository->getBlogById($args['id']);
-            if (!empty($user_exists) ) {
+            $user_exists = $this->mySQLBlogRepository->getBlogById($id);
+            if (empty($user_exists) ) {
                 $data = ['message' => "Blog entry with id {$id} does not exist"];
-
                 $response->getBody()->write(json_encode($data));
                 $response->withHeader('Content-Type', 'application/json')->withStatus(404);
             } else {
-                $blog = $this->userRepository->updateBlog($id, $data['content'], $data['title']);
+                $blog = $this->mySQLBlogRepository->updateBlog($id, $data['content'], $data['title']);
                 $response->getBody()->write(json_encode($blog));
             }
         }
@@ -125,13 +124,13 @@ class BlogController
 
     public function deleteApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
-        $user_exists = $this->userRepository->getBlogById($args['id']);
-        if(!empty($user_exists)) {
+        $user_exists = $this->mySQLBlogRepository->getBlogById($id);
+        if(empty($user_exists)) {
             $data = ['message' => "Blog entry with id {$id} does not exist"];
             $response->getBody()->write(json_encode($data));
             $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         } else {
-            $this->userRepository->deleteBlogById($id);
+            $this->mySQLBlogRepository->deleteBlogById($id);
             $data = ['message' => "The blog has been deleted"];
             $response->getBody()->write(json_encode($data));
         }

@@ -5,6 +5,7 @@ namespace Salle\PixSalle\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\StreamInterface;
+use Salle\PixSalle\Repository\MySQLBlogRepository;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
 use Slim\Routing\RouteContext;
@@ -14,13 +15,16 @@ class BlogController
 {
     private Twig $twig;
     private UserRepository $userRepository;
+    private MySQLBlogRepository $mySQLBlogRepository;
 
     public function __construct(
         Twig $twig,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MySQLBlogRepository $mySQLBlogRepository
     ) {
         $this->twig = $twig;
         $this->userRepository = $userRepository;
+        $this->mySQLBlogRepository = $mySQLBlogRepository;
     }
 
     public function showBlog(Request $request, Response $response): Response {
@@ -39,7 +43,7 @@ class BlogController
             'blog.twig',
             [
                 'currentPage' => ['blog'],
-                'blogs' => $this->userRepository->getUserAllBlogs()
+                'blogs' => $this->userRepository->getUserAllBlogs(),
             ]
         );
     }
@@ -95,18 +99,23 @@ class BlogController
 
     public function putApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
-
-        /*if($response->getStatusCode() == http_response_code(404)) {
-            $data = ['message' => "Blog entry with id {$id} does not exist"];
-            $response->getBody()->write(json_encode($data));
-        } else if($response->getStatusCode() == http_response_code(400)) {
+        $data =json_decode((string) $request->getBody(), true);
+        if (!isset($data['content']) ||  !isset($data['title'])) {
             $data = ['message' => "The title and/or content cannot be empty"];
             $response->getBody()->write(json_encode($data));
-        } else {*/
-            $data = json_decode((string) $request->getBody(), true);
-            $blog = $this->userRepository->updateBlog($id, $data['content'], $data['title']);
-            $response->getBody()->write(json_encode($blog));
-        //}
+            $response->withStatus(http_response_code(400));
+        } else {
+            $user_exists = $this->userRepository->getBlogById($args['id']);
+            if (!empty($user_exists) ) {
+                $data = ['message' => "Blog entry with id {$id} does not exist"];
+
+                $response->getBody()->write(json_encode($data));
+                $response->withStatus(http_response_code(404));
+            } else {
+                $blog = $this->userRepository->updateBlog($id, $data['content'], $data['title']);
+                $response->getBody()->write(json_encode($blog));
+            }
+        }
 
         return $response;
     }

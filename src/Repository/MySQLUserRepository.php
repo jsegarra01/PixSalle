@@ -145,7 +145,7 @@ final class MySQLUserRepository implements UserRepository
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('id', $id, PDO::PARAM_STR);
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
         $statement->execute();
     }
 
@@ -156,7 +156,7 @@ final class MySQLUserRepository implements UserRepository
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('user_id', $user_id, PDO::PARAM_STR);
+        $statement->bindParam('user_id', $user_id, PDO::PARAM_INT);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->execute();
@@ -166,7 +166,7 @@ final class MySQLUserRepository implements UserRepository
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('user_id', $user_id, PDO::PARAM_STR);
+        $statement->bindParam('user_id', $user_id, PDO::PARAM_INT);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->execute();
@@ -179,11 +179,11 @@ final class MySQLUserRepository implements UserRepository
     {
         $query = <<<'QUERY'
         UPDATE blogs
-        SET title = :title AND content = :content WHERE id = :id
+        SET title = :title, content = :content WHERE id = :id
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('id', $id, PDO::PARAM_STR);
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->execute();
@@ -192,6 +192,7 @@ final class MySQLUserRepository implements UserRepository
         SELECT * FROM blogs WHERE id = :id
         QUERY;
 
+        $statement = $this->databaseConnection->prepare($query);
         $statement->bindParam('id', $id, PDO::PARAM_STR);
         $statement->execute();
 

@@ -10,13 +10,13 @@
 {% block main %}
     <h1>ALL BLOGS</h1>
     {% for blog in blogs %}
-        <div class="image-container">
-                <div class="image-info">
+        <div class="form-container">
+            <form data-cy="sign-in" action="http://127.0.0.1:8030/blog/{{ blog['id'] }}" method="GET">
                         <p>{{ blog['title'] }}</p>
                         <p>{{ blog['content'] }}</p>
                         <p>{{ blog['user_id'] }}</p>
-                    </form>
-                </div>
+                    <input data-cy="blog__btn" type="submit" value="GO">
+            </form>
         </div>
     {% endfor %}
 {% endblock %}

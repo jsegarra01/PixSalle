@@ -19,12 +19,12 @@ class BlogController
 
     public function __construct(
         Twig $twig,
-        UserRepository $userRepository,
-        MySQLBlogRepository $mySQLBlogRepository
+        UserRepository $userRepository
+        //MySQLBlogRepository $mySQLBlogRepository
     ) {
         $this->twig = $twig;
         $this->userRepository = $userRepository;
-        $this->mySQLBlogRepository = $mySQLBlogRepository;
+        //$this->mySQLBlogRepository = $mySQLBlogRepository;
     }
 
     public function showBlog(Request $request, Response $response): Response {
@@ -57,14 +57,15 @@ class BlogController
 
     public function postBlog(Request $request, Response $response): Response
     {
-        /*if($response->getStatusCode() == http_response_code(400)) {
+        if (!isset($data['content']) ||  !isset($data['title'])) {
             $data = ['message' => "The title and/or content cannot be empty"];
             $response->getBody()->write(json_encode($data));
-        } else {*/
+            $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        } else {
             $data = json_decode((string) $request->getBody(), true);
             $blog = $this->userRepository->postBlog($data['title'], $data['content'], $data['userId']);
             $response->getBody()->write(json_encode($blog));
-        //}
+        }
 
         return $response;
     }
@@ -75,7 +76,7 @@ class BlogController
 
         return $this->twig->render(
             $response,
-            'blog.twig',
+            'individualBlog.twig',
             [
                 'currentPage' => ['blog'],
                 'blogs' => $this->userRepository->getBlogById($id)
@@ -86,13 +87,15 @@ class BlogController
     public function getApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
 
-        /*if($response->getStatusCode() == http_response_code(404)) {
+        $user_exists = $this->userRepository->getBlogById($args['id']);
+        if(!empty($user_exists)) {
             $data = ['message' => "Blog entry with id {$id} does not exist"];
             $response->getBody()->write(json_encode($data));
-        } else {*/
+            $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        } else {
             $blog = $this->userRepository->getBlogById($id);
             $response->getBody()->write(json_encode($blog));
-        //}
+        }
 
         return $response;
     }
@@ -103,14 +106,14 @@ class BlogController
         if (!isset($data['content']) ||  !isset($data['title'])) {
             $data = ['message' => "The title and/or content cannot be empty"];
             $response->getBody()->write(json_encode($data));
-            $response->withStatus(http_response_code(400));
+            $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         } else {
             $user_exists = $this->userRepository->getBlogById($args['id']);
             if (!empty($user_exists) ) {
                 $data = ['message' => "Blog entry with id {$id} does not exist"];
 
                 $response->getBody()->write(json_encode($data));
-                $response->withStatus(http_response_code(404));
+                $response->withHeader('Content-Type', 'application/json')->withStatus(404);
             } else {
                 $blog = $this->userRepository->updateBlog($id, $data['content'], $data['title']);
                 $response->getBody()->write(json_encode($blog));
@@ -122,15 +125,16 @@ class BlogController
 
     public function deleteApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
-
-        /*if($response->getStatusCode() == http_response_code(404)) {
+        $user_exists = $this->userRepository->getBlogById($args['id']);
+        if(!empty($user_exists)) {
             $data = ['message' => "Blog entry with id {$id} does not exist"];
             $response->getBody()->write(json_encode($data));
-        } else {*/
+            $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        } else {
             $this->userRepository->deleteBlogById($id);
             $data = ['message' => "The blog has been deleted"];
             $response->getBody()->write(json_encode($data));
-        //}
+        }
 
         return $response;
     }

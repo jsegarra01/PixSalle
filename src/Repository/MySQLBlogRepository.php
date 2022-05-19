@@ -23,7 +23,6 @@ class MySQLBlogRepository
 
         $row = $statement->fetchAll(PDO::FETCH_NAMED);
         return $row;
-
     }
 
     public function getBlogById(int $id) {

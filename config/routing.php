@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Salle\PixSalle\Controller\HomeController;
 use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\API\BlogAPIController;
+use Salle\PixSalle\Controller\BlogController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
@@ -21,31 +22,32 @@ function addRoutes(App $app): void
     $app->post('/sign-in', UserSessionController::class . ':signIn');
     $app->get('/sign-up', SignUpController::class . ':showSignUpForm')->setName('signUp');
     $app->post('/sign-up', SignUpController::class . ':signUp');
-
     $app->get('/explore', ExploreController::class . ':showExplorer')->setName('explore');
-
     $app->get('/profile', ProfileController::class . ':showProfile')->setName('profile');
     $app->post('/profile', ProfileController::class . ':editProfile');
-
     $app->get('/profile/changePassword', PasswordController::class . ':showChangePassword')->setName('changePassword');
     $app->post('/profile/changePassword', PasswordController::class . ':changePassword');
-
     $app->get('/user/membership', MembershipController::class . ':showMembership')->setName('membership');
     $app->post('/user/membership', MembershipController::class . ':changeMembership');
-
     $app->get('/portfolio', PortfolioController::class .':showPortfolio')->setName('portfolio');
     $app->post('/portfolio', PortfolioController::class .':createPortfolio');
-
     $app->post('/portfolio/album', PortfolioController::class .':createAlbum')->setName('album');
-
     $app->post('/portfolio/album/qr/{id}', PortfolioController::class .':generateQR')->setName('qr');
     $app->get('/portfolio/album/qr/{id}', PortfolioController::class .':downloadQR');
-
     $app->get('/portfolio/album/{id}', PortfolioController::class .':showAlbum')->setName('picture');
     $app->post('/portfolio/album/{id}', PortfolioController::class .':uploadPicture');
     $app->delete('/portfolio/album/{id}', PortfolioController::class .':deleteAlbumPicture');
-
     $app->get('/user/wallet', WalletController::class . ':showWallet')->setName('wallet');
     $app->post('/user/wallet', WalletController::class . ':postMoney');
+    $app->get('/blog', BlogController::class . ':showBlog')->setName('blog');
+    $app->get('/blog/{id}', BlogController::class . ':getIdBlog')->setName('blogID');
+    $app->get('/api/blog', BlogController::class . ':getBlog')->setName('blogGet');
+    $app->post('/api/blog', BlogController::class . ':postBlog');
+    $app->get('/api/blog/{id}', BlogController::class . ':getApiBlog');
+    $app->put('/api/blog/{id}', BlogController::class . ':putApiBlog');
+    $app->delete('/api/blog/{id}', BlogController::class . ':deleteApiBlog');
+
+
+
 
 }

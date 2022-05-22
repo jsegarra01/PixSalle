@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
+use Salle\PixSalle\Controller\BlogController;
 use Salle\PixSalle\Controller\ExploreController;
 use Salle\PixSalle\Controller\HomeController;
 use Salle\PixSalle\Controller\PortfolioController;
 use Salle\PixSalle\Controller\SignUpController;
 use Salle\PixSalle\Controller\UserSessionController;
+use Salle\PixSalle\Repository\MySQLBlogRepository;
 use Salle\PixSalle\Repository\MySQLAlbumRepository;
 use Salle\PixSalle\Repository\MySQLPictureRepository;
 use Salle\PixSalle\Repository\MySQLPortfolioRepository;
@@ -51,6 +53,10 @@ function addDependencies(ContainerInterface $container): void
         'user_repository',
         function (ContainerInterface $container) {
             return new MySQLUserRepository($container->get('db'));
+    });
+
+    $container->set('blog_repository', function (ContainerInterface $container) {
+        return new MySQLBlogRepository($container->get('db'));
     });
 
     $container->set(
@@ -117,6 +123,13 @@ function addDependencies(ContainerInterface $container): void
         PasswordController::class,
         function (ContainerInterface $c) {
             return new PasswordController($c->get('view'), $c->get('flash') , $c->get('user_repository'));
+        }
+    );
+
+    $container->set(
+        BlogController::class,
+        function (ContainerInterface $c) {
+            return new BlogController($c->get('view'), $c->get('blog_repository'));
         }
     );
 

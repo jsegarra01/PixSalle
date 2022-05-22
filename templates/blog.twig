@@ -1,0 +1,21 @@
+{% extends "base.twig" %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/sign.css"/>
+{% endblock %}
+
+{% block title %}Blog | PixSalle{% endblock %}
+
+{% block main %}
+    {% for blog in blogs %}
+        <div class="form-container">
+            <h1>{{ blog['title'] }}</h1>
+            <form data-cy="blog" action="http://127.0.0.1:8030/blog/{{ blog['id'] }}" method="GET">
+                <h2 class="contents">Content: {{ blog['content'] }}</h2>
+                <h2 class="contents">User Id: {{ blog['user_id'] }}</h2>
+                <input data-cy="blog__btn" type="submit" value="GO">
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}

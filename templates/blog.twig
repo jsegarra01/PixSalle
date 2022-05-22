@@ -13,7 +13,7 @@
             <h1>{{ blog['title'] }}</h1>
             <form data-cy="blog" action="http://127.0.0.1:8030/blog/{{ blog['id'] }}" method="GET">
                 <h2 class="contents">Content: {{ blog['content'] }}</h2>
-                <h2 class="contents">User Id: {{ blog['user_id'] }}</h2>
+                <h2 class="contents">User Id: {{ blog['userId'] }}</h2>
                 <input data-cy="blog__btn" type="submit" value="GO">
             </form>
         </div>

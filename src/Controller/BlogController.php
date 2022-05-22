@@ -45,7 +45,6 @@ class BlogController
 
     public function postBlog(Request $request, Response $response): Response {
         $data = $request->getParsedBody();
-        //print_r($data);
         if (empty($data['content']) ||  empty($data['title']) || empty($data['userId'])) {
             $message = ['message' => "'title' and/or 'content' and/or 'userId' key missing"];
             $code = 400;

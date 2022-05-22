@@ -50,9 +50,9 @@ DROP TABLE IF EXISTS `blogs`;
 CREATE TABLE `blogs`
 (
     `id`        INT                                                     NOT NULL AUTO_INCREMENT,
-    `title`      VARCHAR(255)                                           NOT NULL,
-    `content`    VARCHAR(255)                                           NOT NULL,
-    `user_id`   INT                                                     NOT NULL,
+    `title`     VARCHAR(255)                                            NOT NULL,
+    `content`   VARCHAR(255)                                            NOT NULL,
+    `userId`    INT                                                     NOT NULL,
 
     PRIMARY KEY (`id`)
 

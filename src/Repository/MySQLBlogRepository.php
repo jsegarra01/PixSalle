@@ -36,7 +36,7 @@ class MySQLBlogRepository implements BlogRepository
         $statement->bindParam('id', $id, PDO::PARAM_STR);
         $statement->execute();
 
-        $row = $statement->fetchAll(PDO::FETCH_NAMED);
+        $row = $statement->fetch(PDO::FETCH_NAMED);
         return $row;
     }
 
@@ -50,29 +50,33 @@ class MySQLBlogRepository implements BlogRepository
         $statement->execute();
     }
 
-    public function postBlog(String $title, String $content, int $user_id) {
+    public function postBlog(String $title, String $content, int $userId) {
         $query = <<<'QUERY'
-        INSERT INTO blogs(title, content, user_id)
-        VALUES(:title, :content, :user_id)
+        INSERT INTO blogs(title, content, userId)
+        VALUES(:title, :content, :userId)
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindParam('userId', $userId, PDO::PARAM_INT);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->execute();
 
         $query = <<<'QUERY'
-        SELECT * FROM blogs WHERE title = :title AND content = :content AND user_id = :user_id
+        SELECT * 
+        FROM blogs 
+        WHERE title = :title AND content = :content AND userId = :userId 
+        GROUP BY id
+        ORDER BY id ASC
         QUERY;
 
         $statement = $this->databaseConnection->prepare($query);
-        $statement->bindParam('user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindParam('userId', $userId, PDO::PARAM_INT);
         $statement->bindParam('content', $content, PDO::PARAM_STR);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->execute();
 
-        $row = $statement->fetchAll(PDO::FETCH_NAMED);
+        $row = $statement->fetch(PDO::FETCH_NAMED);
         return $row;
     }
 
@@ -97,7 +101,7 @@ class MySQLBlogRepository implements BlogRepository
         $statement->bindParam('id', $id, PDO::PARAM_STR);
         $statement->execute();
 
-        $row = $statement->fetchAll(PDO::FETCH_NAMED);
+        $row = $statement->fetch(PDO::FETCH_NAMED);
         return $row;
     }
 }

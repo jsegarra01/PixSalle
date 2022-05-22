@@ -14,29 +14,17 @@ use Slim\Views\Twig;
 class BlogController
 {
     private Twig $twig;
-    private UserRepository $userRepository;
     private MySQLBlogRepository $mySQLBlogRepository;
 
     public function __construct(
         Twig $twig,
-        UserRepository $userRepository,
         MySQLBlogRepository $mySQLBlogRepository
     ) {
         $this->twig = $twig;
-        $this->userRepository = $userRepository;
         $this->mySQLBlogRepository = $mySQLBlogRepository;
     }
 
     public function showBlog(Request $request, Response $response): Response {
-
-        /*if (!isset($_SESSION["user_id"])) {
-            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-            return $response
-                ->withHeader('Location', $routeParser->urlFor("signIn"))
-                ->withStatus(302);
-        }
-
-        $user = $this->userRepository->getUserByEmail($_SESSION['email']);*/
 
         return $this->twig->render(
             $response,
@@ -52,28 +40,26 @@ class BlogController
     {
         $blogs = $this->mySQLBlogRepository->getUserAllBlogs();
         $response->getBody()->write(json_encode($blogs));
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 
-    public function postBlog(Request $request, Response $response): Response
-    {
-        if (!isset($data['content']) ||  !isset($data['title'])) {
-            $data = ['message' => "The title and/or content cannot be empty"];
-            $response->getBody()->write(json_encode($data));
-            $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+    public function postBlog(Request $request, Response $response): Response {
+        $data = $request->getParsedBody();
+        //print_r($data);
+        if (empty($data['content']) ||  empty($data['title']) || empty($data['userId'])) {
+            $message = ['message' => "'title' and/or 'content' and/or 'userId' key missing"];
+            $code = 400;
         } else {
             $data = json_decode((string) $request->getBody(), true);
-            $blog = $this->mySQLBlogRepository->postBlog($data['title'], $data['content'], $data['userId']);
-            $response->getBody()->write(json_encode($blog));
+            $message = $this->mySQLBlogRepository->postBlog($data['title'], $data['content'], $data['userId']);
+            $code = 201;
         }
-
-        return $response;
+        $response->getBody()->write(json_encode($message));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code);
     }
 
     public function getIdBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
-
-
         return $this->twig->render(
             $response,
             'individualBlog.twig',
@@ -86,55 +72,49 @@ class BlogController
 
     public function getApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
-
-        $user_exists = $this->mySQLBlogRepository->getBlogById($id);
-        if(empty($user_exists)) {
-            $data = ['message' => "Blog entry with id {$id} does not exist"];
-            $response->getBody()->write(json_encode($data));
-            $response->withHeader('Content-Type', 'application/json')->withStatus(404);
-        } else {
-            $blog = $this->mySQLBlogRepository->getBlogById($id);
-            $response->getBody()->write(json_encode($blog));
+        $message = $this->mySQLBlogRepository->getBlogById($id);
+        $code = 200;
+        if(empty($message)) {
+            $message = ['message' => "Blog entry with id {$id} does not exist"];
+            $code = 404;
         }
-
-        return $response;
+        $response->getBody()->write(json_encode($message));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code);
     }
 
     public function putApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
         $data =json_decode((string) $request->getBody(), true);
         if (!isset($data['content']) ||  !isset($data['title'])) {
-            $data = ['message' => "The title and/or content cannot be empty"];
-            $response->getBody()->write(json_encode($data));
-            $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+            $message = ['message' => "'title' and/or 'content' key missing"];
+            $code = 400;
         } else {
             $user_exists = $this->mySQLBlogRepository->getBlogById($id);
             if (empty($user_exists) ) {
-                $data = ['message' => "Blog entry with id {$id} does not exist"];
-                $response->getBody()->write(json_encode($data));
-                $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+                $message = ['message' => "Blog entry with id {$id} does not exist"];
+                $code = 404;
             } else {
-                $blog = $this->mySQLBlogRepository->updateBlog($id, $data['content'], $data['title']);
-                $response->getBody()->write(json_encode($blog));
+                $message = $this->mySQLBlogRepository->updateBlog($id, $data['content'], $data['title']);
+                $code = 200;
             }
         }
-
-        return $response;
+        $response->getBody()->write(json_encode($message));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code);
     }
 
     public function deleteApiBlog(Request $request, Response $response, $args):Response {
         $id = $args['id'];
         $user_exists = $this->mySQLBlogRepository->getBlogById($id);
         if(empty($user_exists)) {
-            $data = ['message' => "Blog entry with id {$id} does not exist"];
-            $response->getBody()->write(json_encode($data));
-            $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+            $message = ['message' => "Blog entry with id {$id} does not exist"];
+            $code = 404;
         } else {
             $this->mySQLBlogRepository->deleteBlogById($id);
-            $data = ['message' => "The blog has been deleted"];
-            $response->getBody()->write(json_encode($data));
+            $message = ['message' => "Blog entry with id {$id} was successfully deleted"];
+            $code = 200;
         }
 
-        return $response;
+        $response->getBody()->write(json_encode($message));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($code);
     }
 }

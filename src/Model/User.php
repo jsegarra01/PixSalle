@@ -18,6 +18,7 @@ class User
   private string $phone;
   private string $picture;
   private string $membership;
+  private int $funds;
 
   public function __construct(
     string $email,
@@ -26,7 +27,7 @@ class User
     Datetime $updatedAt,
     string $username = "",
     string $phone = "",
-    string $picture = "",
+    string $picture = "https://media.forgecdn.net/avatars/107/154/636364134932167010.jpeg",
     string $membership = ""
   ) {
     $this->email = $email;
@@ -36,6 +37,7 @@ class User
     $this->username = $username;
     $this->phone = $phone;
     $this->picture = $picture;
+    $this->funds = 30;
     if ($membership=="") {
       $this->membership = "Cool";
     } else {
@@ -131,6 +133,16 @@ class User
   public function setmembership(string $auxmembership)
   {
     $this->membership = $auxmembership;
+  }
+
+  public function funds():int
+  {
+      return $this->funds;
+  }
+
+  public function setFunds (int $funds): void
+  {
+      $this->funds = $funds;
   }
 
 }

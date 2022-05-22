@@ -18,12 +18,6 @@ h1 {
     justify-content: space-around;
 }
 
-.user-stats {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-}
-
 .edit-menu {
     margin-top: 32px;
     display: flex;
@@ -76,7 +70,7 @@ input[type="file"] {
 }
 
 form p {
-        color: red;
+        color: var(--red-error);
         align-self: flex-start;
 }
 
@@ -120,21 +114,3 @@ input[type="file"] + label:hover {
     outline: var(--green) 3px solid;
     cursor: pointer;
 }
-
-/*input[type="submit"] {*/
-/*    padding: 0 4px;*/
-/*}*/
-
-/*p {*/
-/*    color: red;*/
-/*    align-self: flex-start;*/
-/*}*/
-
-
-
-
-/*input[type="submit"]:hover {*/
-/*    opacity: 80%;*/
-/*    cursor: pointer;*/
-/*}*/
-

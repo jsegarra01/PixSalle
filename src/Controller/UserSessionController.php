@@ -8,20 +8,24 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Model\User;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
 class UserSessionController
 {
     private Twig $twig;
+    private Messages $flash;
     private ValidatorService $validator;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -36,12 +40,17 @@ class UserSessionController
             unset($_SESSION['email']);
         }
 
+        $messages = $this->flash->getMessages();
+
+        $signError = $messages['signError'][0] ?? "";
+
         return $this->twig->render(
             $response, 
             'sign-in.twig',
             [
                 'currentPage' => ['sign-in'],
                 'notSigned' => '1',
+                'signError' => $signError,
                 'formAction' => $routeParser->urlFor('signIn')
             ]);
     }
@@ -72,7 +81,8 @@ class UserSessionController
             } else {
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['email'] = $data['email'];
-                return $response->withHeader('Location','/profile')->withStatus(302);
+                $_SESSION['username'] = $user->username;
+                return $response->withHeader('Location','/')->withStatus(302);
             }
         }
         return $this->twig->render(

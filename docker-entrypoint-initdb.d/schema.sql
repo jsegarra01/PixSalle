@@ -18,16 +18,17 @@ CREATE TABLE `users`
     `phone`     VARCHAR(255)                                            NULL,
     `picture`   VARCHAR(255)                                            NULL,
     `membership`   VARCHAR(255)                                         NOT NULL,
+    `funds`     INT                                                     NOT NULL,
 
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `picture`;
-CREATE TABLE `picture`
+DROP TABLE IF EXISTS `portfolio`;
+CREATE TABLE `portfolio`
 (
     `id`        INT                                                     NOT NULL AUTO_INCREMENT,
-    `pic_url`   VARCHAR(255)                                            NOT NULL,
-    `user_id`   INT                                            NOT NULL,
+    `title`     VARCHAR(255)                                            NOT NULL,
+    `user_id`   INT                                                     NOT NULL,
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -38,12 +39,22 @@ CREATE TABLE `album`
 (
     `id`        INT                                                     NOT NULL AUTO_INCREMENT,
     `name`      VARCHAR(255)                                            NOT NULL,
-    `pic_id`    INT                                                     NOT NULL,
-    `user_id`   INT                                                     NOT NULL,
+    `qr_image`  VARCHAR(255)                                            NULL,
+    `port_id`   INT                                                     NOT NULL,
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (pic_id) REFERENCES picture(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (port_id) REFERENCES portfolio(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE `picture`
+(
+    `id`        INT                                                     NOT NULL AUTO_INCREMENT,
+    `pic_url`   VARCHAR(255)                                            NOT NULL,
+    `album_id`  INT                                                     NOT NULL,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (album_id) REFERENCES album(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `blogs`;
@@ -57,3 +68,5 @@ CREATE TABLE `blogs`
     PRIMARY KEY (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

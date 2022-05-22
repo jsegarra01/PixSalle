@@ -1,0 +1,113 @@
+.header-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.go-back {
+    border-radius: 8px;
+    text-decoration: none;
+    align-self: center;
+    padding: 8px 4px;
+    color: var(--beige);
+    background-color: var(--dark-blue);
+}
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.image-base {
+    height: 272px;
+    flex-basis: 32.33%;
+    border-radius: 8px;
+    background-color: var(--green);
+}
+
+.image-base:hover {
+    outline: var(--dark-blue) 3px solid;
+}
+
+form * {
+    color: var(--beige);
+}
+
+form {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 32.33%;
+}
+
+form label {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+input {
+    height: 32px;
+    width: 100%;
+    font-size: 75%;
+    background-color: var(--green-blue);
+    border: var(--green-blue) 4px solid;
+}
+
+input[type="submit"] {
+    font-weight: bold;
+    font-size: 90%;
+}
+
+input[type="submit"]:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.image {
+    position: relative;
+    padding: 16px 8px 72px 8px;
+
+}
+
+img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    min-width: 0;
+}
+
+.image input {
+    width: 100px;
+    display: none;
+    position: absolute;
+    bottom: 16px;
+    left: 108px;
+    border-radius: 4px;
+    background-color: var(--red-error);
+    border: var(--red-error) 4px solid;
+}
+
+.image:hover input {
+    display: block;
+}
+
+.image:hover input:hover {
+    outline: #4e0707 3px solid;
+}
+
+.error {
+    width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: var(--beige) !important;
+}

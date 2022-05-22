@@ -8,19 +8,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Model\User;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
 class MembershipController
 {
     private Twig $twig;
+    private Messages $flash;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -28,6 +32,10 @@ class MembershipController
     public function showMembership(Request $request, Response $response): Response {
 
         if (!isset($_SESSION["user_id"])) {
+            $this->flash->addMessage(
+                'signError',
+                'You have to be logged in to access the MEMBERSHIP!'
+            );
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
@@ -38,6 +46,10 @@ class MembershipController
 
         $data = [];
         $data['membership'] = $user->membership;
+
+        $messages = $this->flash->getMessages();
+
+        $membershipError = $messages['membershipError'][0] ?? "";
         
         return $this->twig->render(
             $response,
@@ -45,6 +57,7 @@ class MembershipController
             [
                 'currentPage' => ['user', 'membership'],
                 'formData' => $data,
+                'membershipError' => $membershipError
             ]
         );
     }

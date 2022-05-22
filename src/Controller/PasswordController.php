@@ -8,19 +8,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Model\User;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
 class PasswordController
 {
     private Twig $twig;
+    private Messages $flash;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -28,6 +32,10 @@ class PasswordController
     public function showChangePassword(Request $request, Response $response): Response {
 
         if (!isset($_SESSION["user_id"])) {
+            $this->flash->addMessage(
+                'signError',
+                'You have to be logged in to access the PASSWORD EDIT!'
+            );
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
@@ -40,7 +48,12 @@ class PasswordController
         $data['username'] = $user->username;
 
         $data['uuid'] = $user->picture;
-        $data['picture'] = '../uploads/' . $user->picture;
+        if (str_contains($user->picture, "uploads/")) {
+            $data['picture'] = '../' . $user->picture;
+        } else {
+            $data['picture'] = $user->picture;
+        }
+
         
         return $this->twig->render($response,'editPassword.twig',
             [
@@ -72,7 +85,7 @@ class PasswordController
         
         $userdata = $this->userRepository->getUserByEmail($_SESSION['email']);
 
-        $data = [];
+
         $data['username'] = $userdata->username;
         $data['uuid'] = $userdata->picture;
         $data['picture'] = '../uploads/' . $userdata->picture;

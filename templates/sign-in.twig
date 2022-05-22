@@ -2,22 +2,23 @@
 
 {% block style %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ full_url_for('signIn2') }}assets/css/sign.css"/>
+  <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/sign.css"/>
 {% endblock %}
 
 {% block title %}Sign-in | PixSalle{% endblock %}
 
 {% block main %}
+  <span class="flash-error">{{ signError }}</span>
   <div class="form-container">
     <h1>Welcome to PixSalle</h1>
     <form data-cy="sign-in" action="{{ formAction }}" method="POST">
       <input data-cy="sign-in__email" type="text" name="email" placeholder="Enter your email">
       {% if formErrors['email'] %}
-        <p data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>
+        <p class="error" data-cy="sign-in__wrongEmail">{{ formErrors['email'] }}</p>
       {% endif %}
       <input data-cy="sign-in__password" type="password" name="password" placeholder="Enter your password">
       {% if formErrors['password'] %}
-        <p data-cy="sign-in__wrongPassword">{{ formErrors['password'] }}</p>
+        <p class="error" data-cy="sign-in__wrongPassword">{{ formErrors['password'] }}</p>
       {% endif %}
       <input data-cy="sign-in__btn" type="submit" value="Sign-in">
     </form>

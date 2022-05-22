@@ -26,7 +26,7 @@ form {
 
 input {
     height: 32px;
-    width: 325px;
+    width: 340px;
     font-size: 100%;
     color: var(--beige);
     background-color: var(--green-blue);
@@ -43,8 +43,14 @@ input[type="submit"] {
     padding: 0 4px;
 }
 
-.error {
-    border-radius: 4px;
+.wrong {
+    color: red;
+    align-self: flex-start;
+}
+
+.correct {
+    color: green;
+    align-self: center;
 }
 
 ::placeholder {

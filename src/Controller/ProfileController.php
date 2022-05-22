@@ -8,19 +8,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Salle\PixSalle\Repository\UserRepository;
 use Salle\PixSalle\Service\ValidatorService;
 use Salle\PixSalle\Model\User;
+use Slim\Flash\Messages;
 use Slim\Views\Twig;
 use Slim\Routing\RouteContext;
 
 class ProfileController
 {
     private Twig $twig;
+    private Messages $flash;
     private UserRepository $userRepository;
 
     public function __construct(
         Twig $twig,
+        Messages $flash,
         UserRepository $userRepository
     ) {
         $this->twig = $twig;
+        $this->flash = $flash;
         $this->userRepository = $userRepository;
         $this->validator = new ValidatorService();
     }
@@ -28,6 +32,10 @@ class ProfileController
     public function showProfile(Request $request, Response $response): Response {
 
         if (!isset($_SESSION["user_id"])) {
+            $this->flash->addMessage(
+                'signError',
+                'You have to be logged in to access the PROFILE!'
+            );
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             return $response
                 ->withHeader('Location', $routeParser->urlFor("signIn"))
@@ -45,7 +53,7 @@ class ProfileController
 
         if( $user->picture!="" ) {
             $data['uuid'] = $user->picture;
-            $data['picture'] = 'uploads/' . $user->picture;
+            $data['picture'] =  $user->picture;
         }
         else $data['uuid'] = "No picture yet";
 
@@ -117,7 +125,7 @@ class ProfileController
         if (count($errors) == 0) {
             if($data['username']!="") {$user->setusername($data['username']);}
             if($data['phone']!="") {$user->setphone($data['phone']);}
-            if( $newPic == TRUE ) {$user->setpicture($uuid);}
+            if( $newPic == TRUE ) {$user->setpicture($target_file);}
             $this->userRepository->editUser($user);
             return $response->withHeader('Location', '/profile')->withStatus(302);
         }
